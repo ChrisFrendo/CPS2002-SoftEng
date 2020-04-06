@@ -83,4 +83,4 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 .idea/
-CPS2002-SoftEng.iml
+*.iml
