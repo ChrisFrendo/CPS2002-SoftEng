@@ -19,7 +19,7 @@ public class HelloWorldTest {
 
     @Test
     public void helloWorldTest() {
-        String expected = "Hello, World2";
+        String expected = "Hello, World!";
         String response = helloWorld.helloWorld();
         assertEquals(expected, response);
     }
