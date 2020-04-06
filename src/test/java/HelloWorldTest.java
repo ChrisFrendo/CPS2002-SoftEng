@@ -4,7 +4,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class HelloWorldTest {
-    HelloWorld helloWorld;
+
+    private HelloWorld helloWorld;
+
     @Before
     public void setUp() {
         helloWorld = new HelloWorld();
@@ -17,7 +19,7 @@ public class HelloWorldTest {
 
     @Test
     public void helloWorldTest() {
-        String expected = "Hello, World!";
+        String expected = "Hello, World2";
         String response = helloWorld.helloWorld();
         assertEquals(expected, response);
     }
