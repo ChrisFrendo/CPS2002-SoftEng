@@ -1,5 +1,5 @@
 package map;
 
-abstract class Tile {
+public abstract class Tile {
 
 }

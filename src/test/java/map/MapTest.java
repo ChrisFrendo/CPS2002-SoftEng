@@ -2,9 +2,11 @@ package map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mockito;
 
 @RunWith(Enclosed.class)
 public class MapTest {
@@ -41,6 +44,48 @@ public class MapTest {
             Map map1 = Map.getInstance();
 
             assertEquals(map, map1);
+        }
+
+        @Test
+        public void generateMap() {
+            int size = 5;
+            map.setMapSize(size, 4);
+            Random r = new Random();
+
+            Tile[][] tiles = map.generateMap(r);
+
+            assertEquals(size, tiles.length);
+            assertEquals(size, tiles[0].length);
+        }
+
+        @Test
+        public void generateMapWaterOverlap() {
+            int size = 5;
+            map.setMapSize(size, 4);
+
+            Random r = Mockito.mock(Random.class);
+
+            Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
+
+            Tile[][] tiles = map.generateMap(r);
+
+            assertEquals(size, tiles.length);
+            assertEquals(size, tiles[0].length);
+        }
+
+        @Test
+        public void generateMapTreasureOverlapWater() {
+            int size = 5;
+            map.setMapSize(size, 4);
+
+            Random r = Mockito.mock(Random.class);
+
+            Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 2, 3, 3, 2, 3, 2, 3, 4);
+
+            Tile[][] tiles = map.generateMap(r);
+
+            assertEquals(size, tiles.length);
+            assertEquals(size, tiles[0].length);
         }
     }
 
