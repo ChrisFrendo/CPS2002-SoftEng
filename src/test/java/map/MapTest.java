@@ -18,6 +18,8 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mockito;
 
+import exceptions.InvalidMapSizeException;
+
 @RunWith(Enclosed.class)
 public class MapTest {
 
@@ -26,24 +28,12 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            map = Map.getInstance();
+            map = new Map();
         }
 
         @After
         public void tearDown() {
             map = null;
-        }
-
-        @Test
-        public void getInstance() {
-            assertNotNull(map);
-        }
-
-        @Test
-        public void getInstanceNotNull() {
-            Map map1 = Map.getInstance();
-
-            assertEquals(map, map1);
         }
 
         @Test
@@ -87,6 +77,13 @@ public class MapTest {
             assertEquals(size, tiles.length);
             assertEquals(size, tiles[0].length);
         }
+
+        @Test(expected = InvalidMapSizeException.class)
+        public void generateMapInvalidSize() {
+            Random r = Mockito.mock(Random.class);
+
+            map.generateMap(r);
+        }
     }
 
     @RunWith(Parameterized.class)
@@ -110,7 +107,7 @@ public class MapTest {
 
         @Test
         public void test() {
-            assertEquals(fExpected, Map.getInstance().setMapSize(fInputSize, fInputNumPlayers));
+            assertEquals(fExpected, new Map().setMapSize(fInputSize, fInputNumPlayers));
         }
     }
 }
