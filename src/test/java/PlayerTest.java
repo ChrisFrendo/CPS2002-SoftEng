@@ -20,45 +20,96 @@ public class PlayerTest {
     @Test
     public void initialPosition() {
         int expectedX = 0;
-        int responseX = player1.getPositionX();
+        int responseX = player1.position.getPositionX();
 
         assertEquals(expectedX, responseX);
 
         int expectedY = 0;
-        int responseY = player1.getPositionY();
+        int responseY = player1.position.getPositionY();
 
         assertEquals(expectedY, responseY);
     }
 
     @Test
-    public void setPositionSuccess() {
-        boolean response = player1.setPosition(1, 2);
+    public void setPositionSuccessX() {
+        boolean response = player1.position.setPosition(1, 0);
 
         assertTrue(response);
 
         int expectedX = 1;
-        int responseX = player1.getPositionX();
+        int responseX = player1.position.getPositionX();
 
         assertEquals(expectedX, responseX);
 
-        int expectedY = 2;
-        int responseY = player1.getPositionY();
+        int expectedY = 0;
+        int responseY = player1.position.getPositionY();
 
         assertEquals(expectedY, responseY);
     }
 
     @Test
-    public void setPositionFailure() {
-        boolean response = player1.setPosition(-1, 0);
+    public void setPositionSuccessY() {
+        boolean response = player1.position.setPosition(0, 1);
+
+        assertTrue(response);
+
+        int expectedX = 0;
+        int responseX = player1.position.getPositionX();
+
+        assertEquals(expectedX, responseX);
+
+        int expectedY = 1;
+        int responseY = player1.position.getPositionY();
+
+        assertEquals(expectedY, responseY);
+    }
+
+    @Test
+    public void setPositionSuccessXY() {
+        boolean response = player1.position.setPosition(1, 1);
+
+        assertTrue(response);
+
+        int expectedX = 1;
+        int responseX = player1.position.getPositionX();
+
+        assertEquals(expectedX, responseX);
+
+        int expectedY = 1;
+        int responseY = player1.position.getPositionY();
+
+        assertEquals(expectedY, responseY);
+    }
+
+
+    @Test
+    public void setPositionFailureX() {
+        boolean response = player1.position.setPosition(-1, 0);
         assertFalse(response);
 
         int expectedX = 0;
-        int responseX = player1.getPositionX();
+        int responseX = player1.position.getPositionX();
 
         assertEquals(expectedX, responseX);
 
         int expectedY = 0;
-        int responseY = player1.getPositionY();
+        int responseY = player1.position.getPositionY();
+
+        assertEquals(expectedY, responseY);
+    }
+
+    @Test
+    public void setPositionFailureY() {
+        boolean response = player1.position.setPosition(0, -1);
+        assertFalse(response);
+
+        int expectedX = 0;
+        int responseX = player1.position.getPositionX();
+
+        assertEquals(expectedX, responseX);
+
+        int expectedY = 0;
+        int responseY = player1.position.getPositionY();
 
         assertEquals(expectedY, responseY);
     }
