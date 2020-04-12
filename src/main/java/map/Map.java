@@ -8,6 +8,26 @@ public class Map {
     private int size;
     private Tile[][] tiles;
 
+    private static Map map = null;
+
+    private Map() {
+
+    }
+
+    public static Map resetInstance() {
+        map.size = 0;
+        map.tiles = null;
+
+        return map;
+    }
+
+    public static Map getInstance() {
+        if (map == null)
+            map = new Map();
+
+        return map;
+    }
+
     public boolean setMapSize(int size, int numOfPlayers) {
         if (size > 50 || numOfPlayers < 2 || numOfPlayers > 8)
             return false;

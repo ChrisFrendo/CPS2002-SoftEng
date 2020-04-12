@@ -28,12 +28,12 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            map = new Map();
+            map = Map.getInstance();
         }
 
         @After
         public void tearDown() {
-            map = null;
+            map = Map.resetInstance();
         }
 
         @Test
@@ -107,7 +107,7 @@ public class MapTest {
 
         @Test
         public void test() {
-            assertEquals(fExpected, new Map().setMapSize(fInputSize, fInputNumPlayers));
+            assertEquals(fExpected, Map.getInstance().setMapSize(fInputSize, fInputNumPlayers));
         }
     }
 }
