@@ -57,7 +57,7 @@ public class Map {
     }
 
     public boolean tileExists(int x, int y) {
-        return x >= 0 && y >= 0 && x <= this.size && y <= this.size;
+        return x >= 0 && y >= 0 && x < this.size && y < this.size;
     }
 
     private void generateWaterTiles(Random r) {
