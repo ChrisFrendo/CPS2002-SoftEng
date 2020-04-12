@@ -1,12 +1,7 @@
 package html;
 
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.Objects;
-
 import map.Tile;
-import utils.FileUtils;
+import utils.FileHelperUtils;
 
 public class MapPageBuilder extends PageBuilder {
     private Page page = new Page();
@@ -21,13 +16,12 @@ public class MapPageBuilder extends PageBuilder {
 
         String filepath;
         try {
-            URL res = Objects.requireNonNull(getClass().getClassLoader().getResource(resourceName));
-            filepath = Paths.get(res.toURI()).toFile().getAbsolutePath();
-        } catch (URISyntaxException | NullPointerException e) {
+            filepath = FileHelperUtils.getResourceFilePath(resourceName);
+        } catch (NullPointerException e) {
             System.err.println("Error opening resource: " + e.getMessage());
             throw e;
         }
-        page.html = FileUtils.readWholeFile(filepath);
+        page.html = FileHelperUtils.readWholeFile(filepath);
 
     }
 
