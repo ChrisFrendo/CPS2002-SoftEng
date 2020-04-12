@@ -1,5 +1,7 @@
 package player;
 
+import map.Map;
+
 public class Player {
 
     public class Position {
@@ -9,7 +11,7 @@ public class Player {
         public int getPositionX() { return x; }
         public int getPositionY() { return y; }
         public boolean setPosition(int newX, int newY) {
-            if (newX >= 0 && newY >= 0) {
+            if (Map.getInstance().tileExists(newX, newY)) {
                 this.x = newX;
                 this.y = newY;
 
