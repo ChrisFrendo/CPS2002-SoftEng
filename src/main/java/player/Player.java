@@ -1,3 +1,5 @@
+package player;
+
 public class Player {
 
     public class Position {
