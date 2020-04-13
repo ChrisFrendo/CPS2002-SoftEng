@@ -4,7 +4,7 @@ import map.Map;
 
 public class Player {
 
-    public class Position {
+    public static class Position {
         private int x;
         private int y;
 
