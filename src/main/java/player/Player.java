@@ -1,52 +1,45 @@
 package player;
 
+import java.util.Random;
+
 import map.Map;
 
 public class Player {
 
-    public static class Position {
-        private int x;
-        private int y;
-
-        int getPositionX() {
-            return x;
-        }
-
-        int getPositionY() {
-            return y;
-        }
-
-        boolean setPosition(int newX, int newY) {
-            if (Map.getInstance().tileExists(newX, newY)) {
-                this.x = newX;
-                this.y = newY;
-
-                return true;
-            }
-
-            return false;
-        }
-    }
-
-    Position position = new Position();
+    Position currentPosition;
+    private Position startingPosition;
     private String id;
 
     public Player(String id) {
         this.id = id;
-        // Start from (0,0), can be randomized later on
-        this.position.setPosition(0, 0);
+
+        this.startingPosition = generateRandomPosition(new Random());
+        this.currentPosition = this.startingPosition;
+    }
+
+    private static Position generateRandomPosition(Random r) {
+        int size = Map.getInstance().getSize();
+
+        int x = r.nextInt(size);
+        int y = r.nextInt(size);
+
+        if (Map.getInstance().isValidStartingPosition(x, y)) {
+            return new Position(x, y);
+        } else {
+            return generateRandomPosition(r);
+        }
     }
 
     boolean move(Direction direction) {
         switch (direction) {
             case up:
-                return this.position.setPosition(this.position.getPositionX(), this.position.getPositionY() + 1);
+                return this.currentPosition.setPosition(this.currentPosition.getPositionX(), this.currentPosition.getPositionY() - 1);
             case down:
-                return this.position.setPosition(this.position.getPositionX(), this.position.getPositionY() - 1);
+                return this.currentPosition.setPosition(this.currentPosition.getPositionX(), this.currentPosition.getPositionY() + 1);
             case left:
-                return this.position.setPosition(this.position.getPositionX() - 1, this.position.getPositionY());
+                return this.currentPosition.setPosition(this.currentPosition.getPositionX() - 1, this.currentPosition.getPositionY());
             default:
-                return this.position.setPosition(this.position.getPositionX() + 1, this.position.getPositionY());
+                return this.currentPosition.setPosition(this.currentPosition.getPositionX() + 1, this.currentPosition.getPositionY());
         }
     }
 

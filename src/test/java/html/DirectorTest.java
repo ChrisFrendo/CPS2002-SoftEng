@@ -1,7 +1,8 @@
 package html;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import map.Map;
 import map.Tile;
 import player.Player;
 
@@ -25,6 +27,8 @@ public class DirectorTest {
 
     @Before
     public void setUp() {
+        Map.getInstance().setMapSize(5, 2);
+        Map.getInstance().generateMap(new Random());
         director = new Director(builder);
     }
 
