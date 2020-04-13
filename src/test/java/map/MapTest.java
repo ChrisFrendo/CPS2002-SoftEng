@@ -1,8 +1,8 @@
 package map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.booleanThat;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,12 +28,12 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            map = new Map();
+            map = Map.getInstance();
         }
 
         @After
         public void tearDown() {
-            map = null;
+            map = Map.resetInstance();
         }
 
         @Test
@@ -46,6 +46,46 @@ public class MapTest {
 
             assertEquals(size, tiles.length);
             assertEquals(size, tiles[0].length);
+        }
+
+        @Test
+        public void tileExistsTrue() {
+            map.setMapSize(5, 2);
+            boolean response = map.tileExists(2, 3);
+
+            assertTrue(response);
+        }
+
+        @Test
+        public void tileExistFalseXGreater() {
+            map.setMapSize(5, 2);
+            boolean response = map.tileExists(6, 1);
+
+            assertFalse(response);
+        }
+
+        @Test
+        public void tileExistFalseYGreater() {
+            map.setMapSize(5, 2);
+            boolean response = map.tileExists(2, 7);
+
+            assertFalse(response);
+        }
+
+        @Test
+        public void tileExistFalseXNegative() {
+            map.setMapSize(5, 2);
+            boolean response = map.tileExists(-2, 1);
+
+            assertFalse(response);
+        }
+
+        @Test
+        public void tileExistFalseYNegative() {
+            map.setMapSize(5, 2);
+            boolean response = map.tileExists(2, -1);
+
+            assertFalse(response);
         }
 
         @Test
@@ -107,7 +147,7 @@ public class MapTest {
 
         @Test
         public void test() {
-            assertEquals(fExpected, new Map().setMapSize(fInputSize, fInputNumPlayers));
+            assertEquals(fExpected, Map.getInstance().setMapSize(fInputSize, fInputNumPlayers));
         }
     }
 }
