@@ -8,4 +8,9 @@ public class WaterTile extends Tile {
     public String getHtml() {
         return HTML;
     }
+
+    @Override
+    public Status getStatus() {
+        return Status.WATER;
+    }
 }

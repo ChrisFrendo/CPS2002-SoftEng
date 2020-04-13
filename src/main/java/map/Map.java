@@ -56,6 +56,18 @@ public class Map {
         return tiles;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public boolean isValidStartingPosition(int x, int y) {
+        if (tiles == null) {
+            throw new NullPointerException("Map is not initialized yet. Call generateMap");
+        }
+
+        return tiles[x][y].getStatus().equals(Tile.Status.GRASS);
+    }
+
     public boolean tileExists(int x, int y) {
         return x >= 0 && y >= 0 && x < this.size && y < this.size;
     }

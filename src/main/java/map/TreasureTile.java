@@ -8,4 +8,9 @@ public class TreasureTile extends Tile {
     public String getHtml() {
         return HTML;
     }
+
+    @Override
+    public Status getStatus() {
+        return Status.TREASURE;
+    }
 }
