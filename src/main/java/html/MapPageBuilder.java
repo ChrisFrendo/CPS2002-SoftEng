@@ -27,10 +27,9 @@ public class MapPageBuilder extends PageBuilder {
 
 
     @Override
-    void buildHeader() {
-        String playerName = "Player 1";
+    void buildHeader(String playerId) {
 
-        page.html = page.html.replace("$header", "<h1>Water Tiles</h1><h2>" + playerName + "</h2>");
+        page.html = page.html.replace("$header", "<h1>Water Tiles</h1><h2>" + playerId + "</h2>");
     }
 
     @Override

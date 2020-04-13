@@ -56,7 +56,7 @@ public class MapPageBuilderTest {
     @Test
     public void buildHeader() throws Exception {
         mapPageBuilder.loadTemplate(MAP_TEMPLATE);
-        mapPageBuilder.buildHeader();
+        mapPageBuilder.buildHeader("1");
 
         assertTrue(mapPageBuilder.getPage().getHtml().contains("Water Tiles"));
     }

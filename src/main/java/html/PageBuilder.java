@@ -8,7 +8,7 @@ public abstract class PageBuilder {
 
     abstract void loadTemplate(String resourceName) throws Exception;
 
-    abstract void buildHeader();
+    abstract void buildHeader(String playerId);
 
     abstract void buildMap(Tile[][] gameMap);
 }

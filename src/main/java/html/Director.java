@@ -1,6 +1,7 @@
 package html;
 
 import map.Tile;
+import player.Player;
 
 public class Director {
     private final String MAP_TEMPLATE = "mapPageTemplate.html";
@@ -10,9 +11,13 @@ public class Director {
         this.builder = builder;
     }
 
-    public void construct(Tile[][] gameMap) throws Exception {
+    public void construct(Tile[][] gameMap, Player player) throws Exception {
         builder.loadTemplate(MAP_TEMPLATE);
-        builder.buildHeader();
+
+        String playerId = player.getId();
+
+        builder.buildHeader(playerId);
+
         builder.buildMap(gameMap);
     }
 }
