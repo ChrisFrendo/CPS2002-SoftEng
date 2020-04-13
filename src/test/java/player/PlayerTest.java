@@ -1,20 +1,21 @@
 package player;
 
-import map.Map;
-import player.Direction;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import player.Player;
 
-import static org.junit.Assert.*;
+import map.Map;
 
 public class PlayerTest {
     private Player player1;
 
     @Before
     public void setUp() {
-        player1 = new Player();
+        player1 = new Player("Player 1");
         Map.getInstance().setMapSize(5, 2);
     }
 
@@ -22,6 +23,14 @@ public class PlayerTest {
     public void tearDown() {
         player1 = null;
         Map.resetInstance();
+    }
+
+    @Test
+    public void getIdTest() {
+        Player player2 = new Player("Player 2");
+
+        assertEquals("Player 1", player1.getId());
+        assertEquals("Player 2", player2.getId());
     }
 
     @Test
@@ -84,7 +93,7 @@ public class PlayerTest {
         int expectedY = 1;
         int responseY = player1.position.getPositionY();
 
-       assertEquals(expectedY, responseY);
+        assertEquals(expectedY, responseY);
     }
 
 
