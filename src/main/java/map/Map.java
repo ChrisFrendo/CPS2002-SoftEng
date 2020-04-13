@@ -72,6 +72,10 @@ public class Map {
         return x >= 0 && y >= 0 && x < this.size && y < this.size;
     }
 
+    public Tile.Status getTileStatus(int x, int y) {
+        return tiles[x][y].getStatus();
+    }
+
     private void generateWaterTiles(Random r) {
 
         int totalNumTiles = this.size * this.size;

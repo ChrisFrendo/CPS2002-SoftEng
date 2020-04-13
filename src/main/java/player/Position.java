@@ -1,7 +1,5 @@
 package player;
 
-import map.Map;
-
 class Position {
     private int x;
     private int y;
@@ -9,6 +7,11 @@ class Position {
     Position(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    Position(Position p) {
+        this.x = p.x;
+        this.y = p.y;
     }
 
     int getPositionX() {
@@ -19,14 +22,8 @@ class Position {
         return y;
     }
 
-    boolean setPosition(int newX, int newY) {
-        if (Map.getInstance().tileExists(newX, newY)) {
-            this.x = newX;
-            this.y = newY;
-
-            return true;
-        }
-
-        return false;
+    void setPosition(int newX, int newY) {
+        this.x = newX;
+        this.y = newY;
     }
 }

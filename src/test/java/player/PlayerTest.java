@@ -17,13 +17,17 @@ import map.Tile;
 public class PlayerTest {
     private Player player1;
 
-    private Map map;
+    private Tile[][] tiles;
     
     @Before
     public void setUp() {
-        map = Map.getInstance();
+        Map map = Map.getInstance();
         map.setMapSize(5, 2);
-        map.generateMap(new Random());
+
+        Random r = Mockito.mock(Random.class);
+        Mockito.when(r.nextInt(5)).thenReturn(1, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
+
+        tiles = map.generateMap(r);
         player1 = new Player("Player 1");
         player1.currentPosition.setPosition(0, 0);
     }
@@ -35,16 +39,32 @@ public class PlayerTest {
     }
 
     @Test
+    public void moveWaterTest() {
+        // 0,0 -> 1,1
+        player1.move(Direction.down);
+        boolean result = player1.move(Direction.right);
+
+        assertTrue(result);
+        assertEquals(player1.startingPosition.getPositionX(), player1.currentPosition.getPositionX());
+        assertEquals(player1.startingPosition.getPositionY(), player1.currentPosition.getPositionY());
+    }
+
+    @Test
+    public void moveTreasureTest() {
+        // 0,0 -> 3,3
+        player1.currentPosition.setPosition(3, 3);
+        // 3,3 -> 3, 4
+        boolean result = player1.move(Direction.down);
+
+        assertTrue(result);
+        assertEquals(3, player1.currentPosition.getPositionX());
+        assertEquals(4, player1.currentPosition.getPositionY());
+        assertTrue(player1.isWinner());
+    }
+
+    @Test
     public void generateRandomPositionTest() {
-        int size = 5;
-        map.setMapSize(size, 2);
 
-        Random r = Mockito.mock(Random.class);
-        Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
-
-        Tile[][] tiles = map.generateMap(r);
-
-        player1 = new Player("Player 1");
         int x = player1.currentPosition.getPositionX();
         int y = player1.currentPosition.getPositionY();
 
@@ -57,51 +77,6 @@ public class PlayerTest {
 
         assertEquals("Player 1", player1.getId());
         assertEquals("Player 2", player2.getId());
-    }
-
-    @Test
-    public void initialPosition() {
-        int expectedX = 0;
-        int responseX = player1.currentPosition.getPositionX();
-
-        assertEquals(expectedX, responseX);
-
-        int expectedY = 0;
-        int responseY = player1.currentPosition.getPositionY();
-
-        assertEquals(expectedY, responseY);
-    }
-
-    @Test
-    public void setPositionSuccess() {
-
-        int expectedX = 1;
-        int expectedY = 1;
-
-        boolean response = player1.currentPosition.setPosition(1, 1);
-
-        int responseX = player1.currentPosition.getPositionX();
-        int responseY = player1.currentPosition.getPositionY();
-
-        assertTrue(response);
-        assertEquals(expectedX, responseX);
-        assertEquals(expectedY, responseY);
-    }
-
-    @Test
-    public void setPositionFailure() {
-        boolean response = player1.currentPosition.setPosition(0, -1);
-        assertFalse(response);
-
-        int expectedX = 0;
-        int responseX = player1.currentPosition.getPositionX();
-
-        assertEquals(expectedX, responseX);
-
-        int expectedY = 0;
-        int responseY = player1.currentPosition.getPositionY();
-
-        assertEquals(expectedY, responseY);
     }
 
     @Test

@@ -3,18 +3,28 @@ package player;
 import java.util.Random;
 
 import map.Map;
+import map.Tile;
 
 public class Player {
 
     Position currentPosition;
-    private Position startingPosition;
+    Position startingPosition;
     private String id;
+    private boolean winner;
 
     public Player(String id) {
         this.id = id;
-
+        this.winner = false;
         this.startingPosition = generateRandomPosition(new Random());
-        this.currentPosition = this.startingPosition;
+        this.currentPosition = new Position(this.startingPosition);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    boolean isWinner() {
+        return winner;
     }
 
     private static Position generateRandomPosition(Random r) {
@@ -31,19 +41,42 @@ public class Player {
     }
 
     boolean move(Direction direction) {
+        int newX;
+        int newY;
+
         switch (direction) {
             case up:
-                return this.currentPosition.setPosition(this.currentPosition.getPositionX(), this.currentPosition.getPositionY() - 1);
+                newX = this.currentPosition.getPositionX();
+                newY = this.currentPosition.getPositionY() - 1;
+                break;
             case down:
-                return this.currentPosition.setPosition(this.currentPosition.getPositionX(), this.currentPosition.getPositionY() + 1);
+                newX = this.currentPosition.getPositionX();
+                newY = this.currentPosition.getPositionY() + 1;
+                break;
             case left:
-                return this.currentPosition.setPosition(this.currentPosition.getPositionX() - 1, this.currentPosition.getPositionY());
+                newX = this.currentPosition.getPositionX() - 1;
+                newY = this.currentPosition.getPositionY();
+                break;
             default:
-                return this.currentPosition.setPosition(this.currentPosition.getPositionX() + 1, this.currentPosition.getPositionY());
+                newX = this.currentPosition.getPositionX() + 1;
+                newY = this.currentPosition.getPositionY();
         }
+
+        if (Map.getInstance().tileExists(newX, newY)) {
+            Tile.Status tileStatus = Map.getInstance().getTileStatus(newX, newY);
+            if (tileStatus.equals(Tile.Status.GRASS)) {
+                this.currentPosition.setPosition(newX, newY);
+            } else if (tileStatus.equals(Tile.Status.WATER)) {
+                this.currentPosition = new Position(this.startingPosition);
+            } else {
+                this.currentPosition.setPosition(newX, newY);
+                this.winner = true;
+            }
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
-    public String getId() {
-        return id;
-    }
 }
