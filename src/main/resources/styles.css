@@ -33,6 +33,10 @@ body {
     margin: 0;
 }
 
+.header h2 {
+    margin: 0;
+}
+
 .display h2 {
     margin: 10px 0 0 0;
 }
