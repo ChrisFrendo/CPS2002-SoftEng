@@ -10,7 +10,7 @@ public class Player {
 
         int getPositionX() { return x; }
         int getPositionY() { return y; }
-        public boolean setPosition(int newX, int newY) {
+        boolean setPosition(int newX, int newY) {
             if (Map.getInstance().tileExists(newX, newY)) {
                 this.x = newX;
                 this.y = newY;
