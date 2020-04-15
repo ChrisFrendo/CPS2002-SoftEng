@@ -18,7 +18,7 @@ public class PlayerTest {
     private Player player1;
 
     private Tile[][] tiles;
-    
+
     @Before
     public void setUp() {
         Map map = Map.getInstance();
@@ -219,5 +219,16 @@ public class PlayerTest {
         assertTrue(response);
         assertEquals(currentRow, responseRow);
         assertEquals(currentColumn + 1, responseColumn);
+    }
+
+    @Test
+    public void getVisitedTiles() {
+        assertEquals(1, player1.getVisitedTiles().size());
+
+        player1.move(Direction.down);
+
+        assertEquals(2, player1.getVisitedTiles().size());
+
+        assertEquals(player1.getVisitedTiles().get(0).getStatus(), Tile.Status.GRASS);
     }
 }

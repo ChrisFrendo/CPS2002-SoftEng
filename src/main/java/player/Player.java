@@ -21,7 +21,7 @@ public class Player {
         this.startingPosition = generateRandomPosition(new Random());
         this.currentPosition = new Position(this.startingPosition);
         this.visitedTiles = new ArrayList<>();
-        this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getColumn(), this.startingPosition.getRow()));
+        this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
     }
 
     public String getId() {
