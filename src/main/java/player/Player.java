@@ -1,56 +1,82 @@
 package player;
 
+import java.util.Random;
+
 import map.Map;
+import map.Tile;
 
 public class Player {
 
-    public static class Position {
-        private int x;
-        private int y;
-
-        int getPositionX() {
-            return x;
-        }
-
-        int getPositionY() {
-            return y;
-        }
-
-        boolean setPosition(int newX, int newY) {
-            if (Map.getInstance().tileExists(newX, newY)) {
-                this.x = newX;
-                this.y = newY;
-
-                return true;
-            }
-
-            return false;
-        }
-    }
-
-    Position position = new Position();
+    Position currentPosition;
+    Position startingPosition;
     private String id;
+    private boolean winner;
 
     public Player(String id) {
         this.id = id;
-        // Start from (0,0), can be randomized later on
-        this.position.setPosition(0, 0);
-    }
-
-    boolean move(Direction direction) {
-        switch (direction) {
-            case up:
-                return this.position.setPosition(this.position.getPositionX(), this.position.getPositionY() + 1);
-            case down:
-                return this.position.setPosition(this.position.getPositionX(), this.position.getPositionY() - 1);
-            case left:
-                return this.position.setPosition(this.position.getPositionX() - 1, this.position.getPositionY());
-            default:
-                return this.position.setPosition(this.position.getPositionX() + 1, this.position.getPositionY());
-        }
+        this.winner = false;
+        this.startingPosition = generateRandomPosition(new Random());
+        this.currentPosition = new Position(this.startingPosition);
     }
 
     public String getId() {
         return id;
     }
+
+    boolean isWinner() {
+        return winner;
+    }
+
+    private static Position generateRandomPosition(Random r) {
+        int size = Map.getInstance().getSize();
+
+        int x = r.nextInt(size);
+        int y = r.nextInt(size);
+
+        if (Map.getInstance().isValidStartingPosition(x, y)) {
+            return new Position(x, y);
+        } else {
+            return generateRandomPosition(r);
+        }
+    }
+
+    boolean move(Direction direction) {
+        int newX;
+        int newY;
+
+        switch (direction) {
+            case up:
+                newX = this.currentPosition.getPositionX();
+                newY = this.currentPosition.getPositionY() - 1;
+                break;
+            case down:
+                newX = this.currentPosition.getPositionX();
+                newY = this.currentPosition.getPositionY() + 1;
+                break;
+            case left:
+                newX = this.currentPosition.getPositionX() - 1;
+                newY = this.currentPosition.getPositionY();
+                break;
+            default:
+                newX = this.currentPosition.getPositionX() + 1;
+                newY = this.currentPosition.getPositionY();
+        }
+
+        if (Map.getInstance().tileExists(newX, newY)) {
+            Tile.Status tileStatus = Map.getInstance().getTileStatus(newX, newY);
+            if (tileStatus.equals(Tile.Status.GRASS)) {
+                this.currentPosition.setPosition(newX, newY);
+            } else if (tileStatus.equals(Tile.Status.WATER)) {
+                this.currentPosition = new Position(this.startingPosition);
+            } else {
+                this.currentPosition.setPosition(newX, newY);
+                this.winner = true;
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }
