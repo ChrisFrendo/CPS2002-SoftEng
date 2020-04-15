@@ -81,7 +81,7 @@ public class Player {
                 this.currentPosition.setPosition(newRow, newColumn);
                 this.winner = true;
             }
-            this.visitedTiles.add(Map.getInstance().getTile(this.currentPosition.getRow(), this.currentPosition.getColumn()));
+            this.visitedTiles.add(Map.getInstance().getTile(newRow, newColumn));
             return true;
         } else {
             return false;
