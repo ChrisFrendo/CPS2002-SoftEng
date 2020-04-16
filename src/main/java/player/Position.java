@@ -1,10 +1,10 @@
 package player;
 
-class Position {
+public class Position {
     private int row;
     private int column;
 
-    Position(int row, int column) {
+    public Position(int row, int column) {
         this.row = row;
         this.column = column;
     }
@@ -14,11 +14,11 @@ class Position {
         this.column = p.column;
     }
 
-    int getRow() {
+    public int getRow() {
         return row;
     }
 
-    int getColumn() {
+    public int getColumn() {
         return column;
     }
 

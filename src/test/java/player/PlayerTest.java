@@ -29,7 +29,7 @@ public class PlayerTest {
 
         tiles = map.generateMap(r);
         player1 = new Player("Player 1");
-        player1.currentPosition.setPosition(0, 0);
+        player1.getCurrentPosition().setPosition(0, 0);
     }
 
     @After
@@ -45,28 +45,28 @@ public class PlayerTest {
         boolean result = player1.move(Direction.right);
 
         assertTrue(result);
-        assertEquals(player1.startingPosition.getRow(), player1.currentPosition.getRow());
-        assertEquals(player1.startingPosition.getColumn(), player1.currentPosition.getColumn());
+        assertEquals(player1.startingPosition.getRow(), player1.getCurrentPosition().getRow());
+        assertEquals(player1.startingPosition.getColumn(), player1.getCurrentPosition().getColumn());
     }
 
     @Test
     public void moveTreasureTest() {
         // 0,0 -> 3,3
-        player1.currentPosition.setPosition(3, 3);
+        player1.getCurrentPosition().setPosition(3, 3);
         // 3,3 -> 3, 4
         boolean result = player1.move(Direction.right);
 
         assertTrue(result);
-        assertEquals(3, player1.currentPosition.getRow());
-        assertEquals(4, player1.currentPosition.getColumn());
+        assertEquals(3, player1.getCurrentPosition().getRow());
+        assertEquals(4, player1.getCurrentPosition().getColumn());
         assertTrue(player1.isWinner());
     }
 
     @Test
     public void generateRandomPositionTest() {
 
-        int row = player1.currentPosition.getRow();
-        int column = player1.currentPosition.getColumn();
+        int row = player1.getCurrentPosition().getRow();
+        int column = player1.getCurrentPosition().getColumn();
 
         assertEquals(tiles[row][column].getStatus(), Tile.Status.GRASS);
     }
@@ -82,14 +82,14 @@ public class PlayerTest {
     @Test
     public void moveUpFailure() {
         // 0, 0
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
 
         boolean response = player1.move(Direction.up);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertFalse(response);
         assertEquals(currentRow, responseRow);
@@ -98,16 +98,16 @@ public class PlayerTest {
 
     @Test
     public void moveUpSuccess() {
-        player1.currentPosition.setPosition(1, 1);
+        player1.getCurrentPosition().setPosition(1, 1);
 
         // 1, 1
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.up);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertTrue(response);
         assertEquals(currentRow - 1, responseRow);
@@ -116,16 +116,16 @@ public class PlayerTest {
 
     @Test
     public void moveDownFailure() {
-        player1.currentPosition.setPosition(4, 0);
+        player1.getCurrentPosition().setPosition(4, 0);
 
         // 4, 0
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.down);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertFalse(response);
         assertEquals(currentRow, responseRow);
@@ -136,13 +136,13 @@ public class PlayerTest {
     public void moveDownSuccess() {
 
         // 0, 0
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.down);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertTrue(response);
         assertEquals(currentRow + 1, responseRow);
@@ -151,16 +151,16 @@ public class PlayerTest {
 
     @Test
     public void moveLeftFailure() {
-        player1.currentPosition.setPosition(3, 0);
+        player1.getCurrentPosition().setPosition(3, 0);
 
         // 3, 0
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.left);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertFalse(response);
         assertEquals(currentRow, responseRow);
@@ -169,16 +169,16 @@ public class PlayerTest {
 
     @Test
     public void moveLeftSuccess() {
-        player1.currentPosition.setPosition(1, 4);
+        player1.getCurrentPosition().setPosition(1, 4);
 
         // 1, 4
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.left);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertTrue(response);
         assertEquals(currentRow, responseRow);
@@ -187,16 +187,16 @@ public class PlayerTest {
 
     @Test
     public void moveRightFailure() {
-        player1.currentPosition.setPosition(3, 4);
+        player1.getCurrentPosition().setPosition(3, 4);
 
         // 3, 4
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.right);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertFalse(response);
         assertEquals(currentRow, responseRow);
@@ -205,16 +205,16 @@ public class PlayerTest {
 
     @Test
     public void moveRightSuccess() {
-        player1.currentPosition.setPosition(1, 3);
+        player1.getCurrentPosition().setPosition(1, 3);
 
         // 1, 3
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
 
         boolean response = player1.move(Direction.right);
 
-        int responseRow = player1.currentPosition.getRow();
-        int responseColumn = player1.currentPosition.getColumn();
+        int responseRow = player1.getCurrentPosition().getRow();
+        int responseColumn = player1.getCurrentPosition().getColumn();
 
         assertTrue(response);
         assertEquals(currentRow, responseRow);
