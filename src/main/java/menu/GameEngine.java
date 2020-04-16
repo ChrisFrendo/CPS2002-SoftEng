@@ -1,5 +1,6 @@
 package menu;
 
+import map.*;
 import player.*;
 import java.util.ArrayList;
 
@@ -16,14 +17,17 @@ public class GameEngine {
         return gameEngine;
     }
 
+    public boolean createPlayers(int playerAmount) {
+        if (playerAmount < 2 || playerAmount > 8)
+            return false;
+
+        int test = 10;
+        return true;
+    }
+
+    public boolean setMapSize(int mapSize, int playerAmount) {
+        return Map.getInstance().setMapSize(mapSize, playerAmount);
+    }
+
     ArrayList<Player> playerList = new ArrayList<>();
-
-    public boolean incorrectPlayerAmount(int playerAmount) {
-        return playerAmount < 2 || playerAmount > 8;
-    }
-
-    public boolean incorrectMapSize(int mapSize, int playerAmount) {
-        return (playerAmount > 4 || mapSize < 5 || mapSize > 50)
-                && (playerAmount < 5 || mapSize < 8 || mapSize > 50);
-    }
 }
