@@ -17,6 +17,7 @@ import map.Tile;
 import map.TreasureTile;
 import map.WaterTile;
 import player.Player;
+import player.Position;
 
 public class MapPageBuilderTest {
 
@@ -77,6 +78,8 @@ public class MapPageBuilderTest {
         Player player = Mockito.mock(Player.class);
 
         Mockito.when(player.getVisitedTiles()).thenReturn(new ArrayList<>(Arrays.asList(grassTile, waterTile, treasureTile)));
+        Mockito.when(player.getCurrentPosition()).thenReturn(new Position(1, 1));
+
 
         Tile[][] tiles = {{grassTile, waterTile, new GrassTile(), treasureTile},
                 {new GrassTile(), new WaterTile(), new GrassTile(), new GrassTile()},
