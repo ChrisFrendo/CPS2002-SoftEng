@@ -1,6 +1,7 @@
 package html;
 
 import map.Tile;
+import player.Player;
 
 public abstract class PageBuilder {
 
@@ -10,5 +11,5 @@ public abstract class PageBuilder {
 
     abstract void buildHeader(String playerId);
 
-    abstract void buildMap(Tile[][] gameMap);
+    abstract void buildMap(Tile[][] gameMap, Player player);
 }

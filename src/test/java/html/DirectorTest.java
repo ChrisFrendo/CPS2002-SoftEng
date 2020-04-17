@@ -35,20 +35,23 @@ public class DirectorTest {
     @Test
     public void construct() throws Exception {
         final String MAP_TEMPLATE = "mapPageTemplate.html";
+        Player player = Mockito.mock(Player.class);
+        Mockito.when(player.getId()).thenReturn("Player 1");
+
         // generating data
         Tile[][] tiles = {{}};
 
         // mocking builder methods
         Mockito.doNothing().when(builder).buildHeader(anyString());
-        Mockito.doNothing().when(builder).buildMap(tiles);
+        Mockito.doNothing().when(builder).buildMap(tiles, player);
         Mockito.doNothing().when(builder).loadTemplate(MAP_TEMPLATE);
 
         // making call
-        director.construct(tiles, new Player("player 1"));
+        director.construct(tiles, player);
 
         // verifying internal methods were called
         Mockito.verify(builder, Mockito.times(1)).buildHeader(anyString());
-        Mockito.verify(builder, Mockito.times(1)).buildMap(tiles);
+        Mockito.verify(builder, Mockito.times(1)).buildMap(tiles, player);
         Mockito.verify(builder, Mockito.times(1)).loadTemplate(MAP_TEMPLATE);
     }
 }

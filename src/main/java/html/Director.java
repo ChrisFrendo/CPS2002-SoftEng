@@ -18,6 +18,6 @@ public class Director {
 
         builder.buildHeader(playerId);
 
-        builder.buildMap(gameMap);
+        builder.buildMap(gameMap, player);
     }
 }
