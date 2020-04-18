@@ -19,5 +19,7 @@ public class Director {
         builder.buildHeader(playerId);
 
         builder.buildMap(gameMap, player);
+
+        builder.buildMoves(player.getPastMoves());
     }
 }

@@ -5,6 +5,11 @@ body {
     animation: 15s linear 0s normal none infinite animate;
 }
 
+.map-container {
+    display: grid;
+    text-align: center;
+}
+
 @keyframes animate {
     from {
         background-position: 0 0;
@@ -43,14 +48,32 @@ body {
 
 .container {
     text-align: center;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
 }
 
 .map {
+    max-width: 100vh;
+    max-height: 80vh;
+    overflow: auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     background: black;
     width: 80vh;
     margin: 30px 0;
     display: inline-block;
     box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.75);
+}
+
+.moves {
+    display: grid;
+    margin: 30px 80px 30px 30px;
+    text-align: center;
+}
+
+.moves table {
+    background: #ffffff66;
 }
 
 .row {
@@ -68,4 +91,5 @@ body {
 .map table td img {
     vertical-align: middle;
     width: 100%;
+    min-width: 35px;
 }
