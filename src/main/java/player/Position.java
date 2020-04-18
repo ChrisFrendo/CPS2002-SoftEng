@@ -1,29 +1,29 @@
 package player;
 
 class Position {
-    private int x;
-    private int y;
+    private int row;
+    private int column;
 
-    Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     Position(Position p) {
-        this.x = p.x;
-        this.y = p.y;
+        this.row = p.row;
+        this.column = p.column;
     }
 
-    int getPositionX() {
-        return x;
+    int getRow() {
+        return row;
     }
 
-    int getPositionY() {
-        return y;
+    int getColumn() {
+        return column;
     }
 
-    void setPosition(int newX, int newY) {
-        this.x = newX;
-        this.y = newY;
+    void setPosition(int newRow, int newColumn) {
+        this.row = newRow;
+        this.column = newColumn;
     }
 }

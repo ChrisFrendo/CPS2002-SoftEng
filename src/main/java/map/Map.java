@@ -60,20 +60,24 @@ public class Map {
         return size;
     }
 
-    public boolean isValidStartingPosition(int x, int y) {
+    public boolean isValidStartingPosition(int row, int column) {
         if (tiles == null) {
             throw new NullPointerException("Map is not initialized yet. Call generateMap");
         }
 
-        return tiles[x][y].getStatus().equals(Tile.Status.GRASS);
+        return tiles[row][column].getStatus().equals(Tile.Status.GRASS);
     }
 
-    public boolean tileExists(int x, int y) {
-        return x >= 0 && y >= 0 && x < this.size && y < this.size;
+    public boolean tileExists(int row, int column) {
+        return row >= 0 && column >= 0 && row < this.size && column < this.size;
     }
 
-    public Tile.Status getTileStatus(int x, int y) {
-        return tiles[x][y].getStatus();
+    public Tile.Status getTileStatus(int row, int column) {
+        return tiles[row][column].getStatus();
+    }
+
+    public Tile getTile(int row, int column) {
+        return tiles[row][column];
     }
 
     private void generateWaterTiles(Random r) {
@@ -83,13 +87,13 @@ public class Map {
 
         for (int i = 0; i < numWaterTiles; i++) {
             // randomly generate coordinates
-            int x = r.nextInt(this.size);
-            int y = r.nextInt(this.size);
+            int row = r.nextInt(this.size);
+            int column = r.nextInt(this.size);
 
             // if position in array is not empty, add new WaterTile
             // else do i-- and continue loop;
-            if (tiles[x][y] == null) {
-                tiles[x][y] = new WaterTile();
+            if (tiles[row][column] == null) {
+                tiles[row][column] = new WaterTile();
             } else {
                 i--;
             }
@@ -99,11 +103,11 @@ public class Map {
 
     private void generateTreasureTile(Random r) {
 
-        int x = r.nextInt(this.size);
-        int y = r.nextInt(this.size);
+        int row = r.nextInt(this.size);
+        int column = r.nextInt(this.size);
 
-        if (tiles[x][y] == null) {
-            this.tiles[x][y] = new TreasureTile();
+        if (tiles[row][column] == null) {
+            this.tiles[row][column] = new TreasureTile();
         } else {
             generateTreasureTile(r);
         }

@@ -35,6 +35,7 @@ public class GenerateHtmlFiles {
         FileHelperUtils.copyFile("images/tiles/GrassTile.png", baseFolderName + "/images/tiles/GrassTile.png");
         FileHelperUtils.copyFile("images/tiles/WaterTile.png", baseFolderName + "/images/tiles/WaterTile.png");
         FileHelperUtils.copyFile("images/tiles/TreasureTile.png", baseFolderName + "/images/tiles/TreasureTile.png");
+        FileHelperUtils.copyFile("images/tiles/HiddenTile.png", baseFolderName + "/images/tiles/HiddenTile.png");
         FileHelperUtils.copyFile("styles.css", baseFolderName + "/styles.css");
         FileHelperUtils.copyFile("title-font/04b_30__-webfont.woff", baseFolderName + "/title-font/04b_30__-webfont.woff");
         FileHelperUtils.copyFile("title-font/04b_30__-webfont.woff2", baseFolderName + "/title-font/04b_30__-webfont.woff2");

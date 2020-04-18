@@ -2,15 +2,21 @@ package html;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import map.GrassTile;
 import map.Tile;
 import map.TreasureTile;
 import map.WaterTile;
+import player.Player;
 
 public class MapPageBuilderTest {
 
@@ -64,16 +70,23 @@ public class MapPageBuilderTest {
     @Test
     public void buildMap() throws Exception {
         mapPageBuilder.loadTemplate(MAP_TEMPLATE);
+        GrassTile grassTile = new GrassTile();
+        WaterTile waterTile = new WaterTile();
+        TreasureTile treasureTile = new TreasureTile();
 
-        Tile[][] tiles = {{new GrassTile(), new WaterTile(), new GrassTile(), new TreasureTile()},
+        Player player = Mockito.mock(Player.class);
+
+        Mockito.when(player.getVisitedTiles()).thenReturn(new ArrayList<>(Arrays.asList(grassTile, waterTile, treasureTile)));
+
+        Tile[][] tiles = {{grassTile, waterTile, new GrassTile(), treasureTile},
                 {new GrassTile(), new WaterTile(), new GrassTile(), new GrassTile()},
                 {new GrassTile(), new WaterTile(), new GrassTile(), new GrassTile()},
                 {new GrassTile(), new WaterTile(), new GrassTile(), new GrassTile()}};
 
-        mapPageBuilder.buildMap(tiles);
+        mapPageBuilder.buildMap(tiles, player);
 
         assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Grass tile\" src=\"images/tiles/GrassTile.png\""));
-        assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Grass tile\" src=\"images/tiles/WaterTile.png\""));
-        assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Grass tile\" src=\"images/tiles/TreasureTile.png\""));
+        assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Water tile\" src=\"images/tiles/WaterTile.png\""));
+        assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Treasure tile\" src=\"images/tiles/TreasureTile.png\""));
     }
 }

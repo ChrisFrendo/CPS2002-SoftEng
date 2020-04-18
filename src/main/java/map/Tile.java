@@ -2,7 +2,7 @@ package map;
 
 public abstract class Tile {
 
-    public abstract String getHtml();
+    public abstract String getHtml(boolean visited);
 
     public abstract Status getStatus();
 

@@ -1,5 +1,7 @@
 package player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import map.Map;
@@ -11,16 +13,23 @@ public class Player {
     Position startingPosition;
     private String id;
     private boolean winner;
+    private List<Tile> visitedTiles;
 
     public Player(String id) {
         this.id = id;
         this.winner = false;
         this.startingPosition = generateRandomPosition(new Random());
         this.currentPosition = new Position(this.startingPosition);
+        this.visitedTiles = new ArrayList<>();
+        this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
     }
 
     public String getId() {
         return id;
+    }
+
+    public List<Tile> getVisitedTiles() {
+        return visitedTiles;
     }
 
     boolean isWinner() {
@@ -30,48 +39,49 @@ public class Player {
     private static Position generateRandomPosition(Random r) {
         int size = Map.getInstance().getSize();
 
-        int x = r.nextInt(size);
-        int y = r.nextInt(size);
+        int row = r.nextInt(size);
+        int column = r.nextInt(size);
 
-        if (Map.getInstance().isValidStartingPosition(x, y)) {
-            return new Position(x, y);
+        if (Map.getInstance().isValidStartingPosition(row, column)) {
+            return new Position(row, column);
         } else {
             return generateRandomPosition(r);
         }
     }
 
-    boolean move(Direction direction) {
-        int newX;
-        int newY;
+    public boolean move(Direction direction) {
+        int newRow;
+        int newColumn;
 
         switch (direction) {
             case up:
-                newX = this.currentPosition.getPositionX();
-                newY = this.currentPosition.getPositionY() - 1;
+                newRow = this.currentPosition.getRow() - 1;
+                newColumn = this.currentPosition.getColumn();
                 break;
             case down:
-                newX = this.currentPosition.getPositionX();
-                newY = this.currentPosition.getPositionY() + 1;
+                newRow = this.currentPosition.getRow() + 1;
+                newColumn = this.currentPosition.getColumn();
                 break;
             case left:
-                newX = this.currentPosition.getPositionX() - 1;
-                newY = this.currentPosition.getPositionY();
+                newRow = this.currentPosition.getRow();
+                newColumn = this.currentPosition.getColumn() - 1;
                 break;
             default:
-                newX = this.currentPosition.getPositionX() + 1;
-                newY = this.currentPosition.getPositionY();
+                newRow = this.currentPosition.getRow();
+                newColumn = this.currentPosition.getColumn() + 1;
         }
 
-        if (Map.getInstance().tileExists(newX, newY)) {
-            Tile.Status tileStatus = Map.getInstance().getTileStatus(newX, newY);
+        if (Map.getInstance().tileExists(newRow, newColumn)) {
+            Tile.Status tileStatus = Map.getInstance().getTileStatus(newRow, newColumn);
             if (tileStatus.equals(Tile.Status.GRASS)) {
-                this.currentPosition.setPosition(newX, newY);
+                this.currentPosition.setPosition(newRow, newColumn);
             } else if (tileStatus.equals(Tile.Status.WATER)) {
                 this.currentPosition = new Position(this.startingPosition);
             } else {
-                this.currentPosition.setPosition(newX, newY);
+                this.currentPosition.setPosition(newRow, newColumn);
                 this.winner = true;
             }
+            this.visitedTiles.add(Map.getInstance().getTile(newRow, newColumn));
             return true;
         } else {
             return false;
