@@ -3,6 +3,7 @@ package menu;
 import map.*;
 import player.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameEngine {
 
@@ -17,17 +18,49 @@ public class GameEngine {
         return gameEngine;
     }
 
-    public boolean createPlayers(int playerAmount) {
-        if (playerAmount < 2 || playerAmount > 8)
-            return false;
-
-        int test = 10;
-        return true;
-    }
-
-    public boolean setMapSize(int mapSize, int playerAmount) {
-        return Map.getInstance().setMapSize(mapSize, playerAmount);
-    }
-
     ArrayList<Player> playerList = new ArrayList<>();
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public boolean validatePlayers(int playerAmount) {
+        return playerAmount >= 2 && playerAmount <= 8;
+    }
+
+    public void createPlayers(int playerAmount) {
+        System.out.println("Hello world 1");
+        for(int i = 0; i < playerAmount; ++i) {
+            System.out.println("loop");
+            Player player = new Player(String.valueOf(i));
+            playerList.add(player);
+        }
+        System.out.println("Hello world 2");
+    }
+
+    public Tile[][] createMap(int mapSize, int playerAmount) {
+        if(Map.getInstance().setMapSize(mapSize, playerAmount)) {
+            return Map.getInstance().generateMap(new Random());
+        }
+        return null;
+    }
+
+    public boolean handleInput(char input, int playerNumber) {
+        switch(input) {
+            case 'u':
+                playerList.get(playerNumber).move(Direction.up);
+                return true;
+            case 'd':
+                playerList.get(playerNumber).move(Direction.down);
+                return true;
+            case 'l':
+                playerList.get(playerNumber).move(Direction.left);
+                return true;
+            case 'r':
+                playerList.get(playerNumber).move(Direction.right);
+                return true;
+            default:
+                return false;
+        }
+    }
 }

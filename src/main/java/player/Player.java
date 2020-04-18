@@ -16,12 +16,17 @@ public class Player {
     private List<Tile> visitedTiles;
 
     public Player(String id) {
+        System.out.println("constructor start");
         this.id = id;
+        System.out.println("id done");
         this.winner = false;
+        System.out.println("isWinner done");
         this.startingPosition = generateRandomPosition(new Random());
+        System.out.println("startingPosition done");
         this.currentPosition = new Position(this.startingPosition);
         this.visitedTiles = new ArrayList<>();
         this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
+        System.out.println("constructor end");
     }
 
     public String getId() {
