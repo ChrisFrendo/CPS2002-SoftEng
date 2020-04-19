@@ -1,6 +1,7 @@
 package menu;
 
-import html.Page;
+import html.*;
+import map.Tile;
 import player.Player;
 
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) {
+        String GENERATED_HTML_DIR = "generatedHtml";
+
         System.out.println("Hello, World!");
 
         Scanner scanner = new Scanner(System.in);
@@ -23,25 +26,31 @@ public class Menu {
 
         /* Prompts for map size */
         int mapSize;
-        do {
+        Tile[][] gameBoard = null;
+
+        while (gameBoard == null) {
             System.out.println("Enter map size");
             System.out.println("Please enter a maximum of 50");
             System.out.println("and a minimum of 5 for 2-4 player");
             System.out.println("a minimum of 8 for 5-8 players");
             mapSize = scanner.nextInt();
-        } while (gameEngine.createMap(mapSize, playerAmount) == null);
-
+            gameBoard = gameEngine.createMap(mapSize, playerAmount);
+        }
 
         /* Creates Players */
         gameEngine.createPlayers(playerAmount);
-
 
         /* Moves players */
         ArrayList<Player> playerList = gameEngine.getPlayerList();
         char input;
         int currentPlayerNumber = 0;
+        PageBuilder builder = new MapPageBuilder();
+        Director director = new Director(builder);
+
         while(!playerList.get(currentPlayerNumber).isWinner()) {
             for (currentPlayerNumber = 0; currentPlayerNumber < playerList.size(); ++currentPlayerNumber) {
+                System.out.println(currentPlayerNumber);
+
                 System.out.print("Enter move (u, d, l, r) for player ");
                 System.out.print(currentPlayerNumber);
                 System.out.println(":");
@@ -51,6 +60,20 @@ public class Menu {
                     System.out.println("Error: invalid input");
                     --currentPlayerNumber;
                 }
+
+                try {
+                    director.construct(gameBoard, playerList.get(currentPlayerNumber));
+                } catch (Exception e) {
+                    System.out.println("Error constructing html file. Game exiting");
+                    System.exit(-1);
+                }
+
+                Page myPage = builder.getPage();
+
+                GenerateHtmlFiles.getInstance().generateHtmlFile(myPage.getHtml(), "map_player_" + (currentPlayerNumber) + ".html", GENERATED_HTML_DIR);
+                System.out.println(currentPlayerNumber);
+
+                System.out.println(currentPlayerNumber);
             }
 
             currentPlayerNumber = 0;
