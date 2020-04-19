@@ -1,5 +1,9 @@
 package menu;
 
+import html.Page;
+import player.Player;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -30,5 +34,26 @@ public class Menu {
 
         /* Creates Players */
         gameEngine.createPlayers(playerAmount);
+
+
+        /* Moves players */
+        ArrayList<Player> playerList = gameEngine.getPlayerList();
+        char input;
+        int currentPlayerNumber = 0;
+        while(!playerList.get(currentPlayerNumber).isWinner()) {
+            for (currentPlayerNumber = 0; currentPlayerNumber < playerList.size(); ++currentPlayerNumber) {
+                System.out.print("Enter move (u, d, l, r) for player ");
+                System.out.print(currentPlayerNumber);
+                System.out.println(":");
+                input = scanner.next().charAt(0);
+
+                if (!gameEngine.handleInput(input, currentPlayerNumber)) {
+                    System.out.println("Error: invalid input");
+                    --currentPlayerNumber;
+                }
+            }
+
+            currentPlayerNumber = 0;
+        }
     }
 }

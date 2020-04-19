@@ -29,13 +29,10 @@ public class GameEngine {
     }
 
     public void createPlayers(int playerAmount) {
-        System.out.println("Hello world 1");
         for(int i = 0; i < playerAmount; ++i) {
-            System.out.println("loop");
             Player player = new Player(String.valueOf(i));
             playerList.add(player);
         }
-        System.out.println("Hello world 2");
     }
 
     public Tile[][] createMap(int mapSize, int playerAmount) {
