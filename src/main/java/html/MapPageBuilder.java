@@ -1,6 +1,9 @@
 package html;
 
+import java.util.List;
+
 import map.Tile;
+import player.Direction;
 import player.Player;
 import utils.FileHelperUtils;
 
@@ -55,5 +58,14 @@ public class MapPageBuilder extends PageBuilder {
         }
 
         page.html = page.html.replace("$map", mapHtml.toString());
+    }
+
+    @Override
+    void buildMoves(List<Direction> movesList) {
+        StringBuilder movesHtml = new StringBuilder();
+
+        movesList.forEach(direction -> movesHtml.append("<tr><td>").append(direction.toString()).append("</td></tr>"));
+
+        page.html = page.html.replace("$pastmoves", movesHtml);
     }
 }

@@ -1,5 +1,6 @@
 package html;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,6 +17,7 @@ import map.GrassTile;
 import map.Tile;
 import map.TreasureTile;
 import map.WaterTile;
+import player.Direction;
 import player.Player;
 import player.Position;
 
@@ -91,5 +93,28 @@ public class MapPageBuilderTest {
         assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Grass tile\" src=\"images/tiles/GrassTile.png\""));
         assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Water tile\" src=\"images/tiles/WaterTile.png\""));
         assertTrue(mapPageBuilder.getPage().getHtml().contains("<img alt=\"Treasure tile\" src=\"images/tiles/TreasureTile.png\""));
+    }
+
+    @Test
+    public void buildMovesEmpty() throws Exception {
+        mapPageBuilder.loadTemplate(MAP_TEMPLATE);
+
+        mapPageBuilder.buildMoves(new ArrayList<>());
+
+        assertFalse(mapPageBuilder.getPage().getHtml().contains("$pastmoves"));
+    }
+
+    @Test
+    public void buildMoves() throws Exception {
+        mapPageBuilder.loadTemplate(MAP_TEMPLATE);
+
+        mapPageBuilder.buildMoves(new ArrayList<>(Arrays.asList(Direction.up, Direction.down)));
+
+        System.out.println(mapPageBuilder.getPage().getHtml());
+
+        assertFalse(mapPageBuilder.getPage().getHtml().contains("$pastmoves"));
+        assertTrue(mapPageBuilder.getPage().getHtml().contains("<tr><td>up</td></tr>"));
+        assertTrue(mapPageBuilder.getPage().getHtml().contains("<tr><td>down</td></tr>"));
+
     }
 }

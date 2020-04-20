@@ -2,6 +2,8 @@ package html;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.Before;
@@ -14,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import map.Map;
 import map.Tile;
+import player.Direction;
 import player.Player;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,16 +39,20 @@ public class DirectorTest {
     public void construct() throws Exception {
         final String MAP_TEMPLATE = "mapPageTemplate.html";
         Player player = Mockito.mock(Player.class);
+
+        List<Direction> directions = new ArrayList<>();
+
         Mockito.when(player.getId()).thenReturn("Player 1");
+        Mockito.when(player.getPastMoves()).thenReturn(directions);
 
         // generating data
         Tile[][] tiles = {{}};
 
-        // mocking builder methods
+        // mocking builder methods because we are just testing the director
         Mockito.doNothing().when(builder).buildHeader(anyString());
         Mockito.doNothing().when(builder).buildMap(tiles, player);
         Mockito.doNothing().when(builder).loadTemplate(MAP_TEMPLATE);
-
+        Mockito.doNothing().when(builder).buildMoves(directions);
         // making call
         director.construct(tiles, player);
 
@@ -53,5 +60,7 @@ public class DirectorTest {
         Mockito.verify(builder, Mockito.times(1)).buildHeader(anyString());
         Mockito.verify(builder, Mockito.times(1)).buildMap(tiles, player);
         Mockito.verify(builder, Mockito.times(1)).loadTemplate(MAP_TEMPLATE);
+        Mockito.verify(builder, Mockito.times(1)).buildMoves(directions);
+
     }
 }

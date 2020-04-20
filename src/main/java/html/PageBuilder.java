@@ -1,6 +1,9 @@
 package html;
 
+import java.util.List;
+
 import map.Tile;
+import player.Direction;
 import player.Player;
 
 public abstract class PageBuilder {
@@ -12,4 +15,6 @@ public abstract class PageBuilder {
     abstract void buildHeader(String playerId);
 
     abstract void buildMap(Tile[][] gameMap, Player player);
+
+    abstract void buildMoves(List<Direction> movesList);
 }

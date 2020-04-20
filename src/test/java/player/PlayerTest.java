@@ -190,9 +190,10 @@ public class PlayerTest {
         player1.getCurrentPosition().setPosition(3, 4);
 
         // 3, 4
-        int currentRow = player1.getCurrentPosition().getRow();
-        int currentColumn = player1.getCurrentPosition().getColumn();
-
+        int currentRow = player1.currentPosition.getRow();
+        int currentColumn = player1.currentPosition.getColumn();
+        int pastMovesSize = player1.getPastMoves().size();
+      
         boolean response = player1.move(Direction.right);
 
         int responseRow = player1.getCurrentPosition().getRow();
@@ -201,6 +202,8 @@ public class PlayerTest {
         assertFalse(response);
         assertEquals(currentRow, responseRow);
         assertEquals(currentColumn, responseColumn);
+        assertEquals(pastMovesSize, player1.getPastMoves().size());
+
     }
 
     @Test
@@ -208,8 +211,10 @@ public class PlayerTest {
         player1.getCurrentPosition().setPosition(1, 3);
 
         // 1, 3
-        int currentRow = player1.getCurrentPosition().getRow();
-        int currentColumn = player1.getCurrentPosition().getColumn();
+
+        int currentRow = player1.currentPosition.getRow();
+        int currentColumn = player1.currentPosition.getColumn();
+        int pastMovesSize = player1.getPastMoves().size();
 
         boolean response = player1.move(Direction.right);
 
@@ -219,6 +224,8 @@ public class PlayerTest {
         assertTrue(response);
         assertEquals(currentRow, responseRow);
         assertEquals(currentColumn + 1, responseColumn);
+        assertEquals(pastMovesSize + 1, player1.getPastMoves().size());
+        assertEquals(Direction.right, player1.getPastMoves().get(pastMovesSize));
     }
 
     @Test
