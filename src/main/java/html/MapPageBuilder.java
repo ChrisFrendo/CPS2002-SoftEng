@@ -41,14 +41,18 @@ public class MapPageBuilder extends PageBuilder {
         int size = gameMap.length;
         StringBuilder mapHtml = new StringBuilder();
 
-        for (Tile[] tiles : gameMap) {
+        for (int i = 0; i < size; i++) {
             mapHtml.append("<tr>");
             for (int j = 0; j < size; j++) {
                 boolean visited = false;
-                if (player.getVisitedTiles().contains(tiles[j]))
+                if (player.getVisitedTiles().contains(gameMap[i][j]))
                     visited = true;
 
-                mapHtml.append("<td>").append(tiles[j].getHtml(visited)).append("</td>");
+                String html = gameMap[i][j].getHtml(visited);
+                if (player.getCurrentPosition().getRow() == i && player.getCurrentPosition().getColumn() == j)
+                    html = html.replace("GrassTile", "GrassTilePlayer");
+
+                mapHtml.append("<td>").append(html).append("</td>");
             }
             mapHtml.append("</tr>");
         }
