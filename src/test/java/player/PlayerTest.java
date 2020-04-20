@@ -190,8 +190,8 @@ public class PlayerTest {
         player1.getCurrentPosition().setPosition(3, 4);
 
         // 3, 4
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
         int pastMovesSize = player1.getPastMoves().size();
       
         boolean response = player1.move(Direction.right);
@@ -212,8 +212,8 @@ public class PlayerTest {
 
         // 1, 3
 
-        int currentRow = player1.currentPosition.getRow();
-        int currentColumn = player1.currentPosition.getColumn();
+        int currentRow = player1.getCurrentPosition().getRow();
+        int currentColumn = player1.getCurrentPosition().getColumn();
         int pastMovesSize = player1.getPastMoves().size();
 
         boolean response = player1.move(Direction.right);
