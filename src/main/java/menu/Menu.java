@@ -4,6 +4,7 @@ import html.*;
 import map.Tile;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import player.Player;
+import utils.FileHelperUtils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -38,12 +39,19 @@ public class Menu {
 
         /* Creates Players */
         gameEngine.createPlayers(playerAmount);
+        ArrayList<Player> playerList = gameEngine.getPlayerList();
+
+        FileHelperUtils.deleteDirectory("generatedHTML");
+        /* Generate initial positions in html */
+        for (int i = 0; i < playerList.size(); ++i) {
+           gameEngine.writeHtml(gameBoard, playerList.get(i), i);
+        }
 
         /* Moves players */
-        ArrayList<Player> playerList = gameEngine.getPlayerList();
         char input;
         int currentPlayerNumber;
         boolean treasureFound = false;
+
 
         while(!treasureFound) {
             for (currentPlayerNumber = 0; currentPlayerNumber < playerList.size(); ++currentPlayerNumber) {
@@ -59,6 +67,7 @@ public class Menu {
                     --currentPlayerNumber;
                 }
 
+                gameEngine.writeHtml(gameBoard, playerList.get(currentPlayerNumber), currentPlayerNumber);
                 /* Check if treasure is found */
                 if (playerList.get(currentPlayerNumber).isWinner()) {
                     treasureFound = true;

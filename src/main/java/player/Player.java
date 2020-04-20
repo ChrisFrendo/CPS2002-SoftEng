@@ -14,6 +14,7 @@ public class Player {
     private String id;
     private boolean winner;
     private List<Tile> visitedTiles;
+    private List<Direction> pastMoves;
 
     public Player(String id) {
         this.id = id;
@@ -22,6 +23,7 @@ public class Player {
         this.currentPosition = new Position(this.startingPosition);
         this.visitedTiles = new ArrayList<>();
         this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
+        this.pastMoves = new ArrayList<>();
     }
 
     public String getId() {
@@ -30,6 +32,10 @@ public class Player {
 
     public List<Tile> getVisitedTiles() {
         return visitedTiles;
+    }
+
+    public List<Direction> getPastMoves() {
+        return pastMoves;
     }
 
     public boolean isWinner() {
@@ -82,6 +88,7 @@ public class Player {
                 this.winner = true;
             }
             this.visitedTiles.add(Map.getInstance().getTile(newRow, newColumn));
+            this.pastMoves.add(direction);
             return true;
         } else {
             return false;
