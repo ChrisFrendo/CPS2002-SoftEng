@@ -9,7 +9,7 @@ import map.Tile;
 
 public class Player {
 
-    Position currentPosition;
+    private Position currentPosition;
     Position startingPosition;
     private String id;
     private boolean winner;
@@ -40,6 +40,10 @@ public class Player {
 
     public boolean isWinner() {
         return winner;
+    }
+
+    public Position getCurrentPosition() {
+        return currentPosition;
     }
 
     private static Position generateRandomPosition(Random r) {
