@@ -2,6 +2,7 @@ package menu;
 
 import html.*;
 import map.Tile;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import player.Player;
 
 import java.util.ArrayList;
@@ -9,8 +10,6 @@ import java.util.Scanner;
 
 public class Menu {
     public static void main(String[] args) {
-        String GENERATED_HTML_DIR = "generatedHtml";
-
         System.out.println("Hello, World!");
 
         Scanner scanner = new Scanner(System.in);
@@ -43,11 +42,10 @@ public class Menu {
         /* Moves players */
         ArrayList<Player> playerList = gameEngine.getPlayerList();
         char input;
-        int currentPlayerNumber = 0;
-        PageBuilder builder = new MapPageBuilder();
-        Director director = new Director(builder);
+        int currentPlayerNumber;
+        boolean treasureFound = false;
 
-        while(!playerList.get(currentPlayerNumber).isWinner()) {
+        while(!treasureFound) {
             for (currentPlayerNumber = 0; currentPlayerNumber < playerList.size(); ++currentPlayerNumber) {
                 System.out.println(currentPlayerNumber);
 
@@ -61,22 +59,15 @@ public class Menu {
                     --currentPlayerNumber;
                 }
 
-                try {
-                    director.construct(gameBoard, playerList.get(currentPlayerNumber));
-                } catch (Exception e) {
-                    System.out.println("Error constructing html file. Game exiting");
-                    System.exit(-1);
+                /* Check if treasure is found */
+                if (playerList.get(currentPlayerNumber).isWinner()) {
+                    treasureFound = true;
+                    System.out.print("Player ");
+                    System.out.print(currentPlayerNumber);
+                    System.out.println(" found the treasure");
+                    break;
                 }
-
-                Page myPage = builder.getPage();
-
-                GenerateHtmlFiles.getInstance().generateHtmlFile(myPage.getHtml(), "map_player_" + (currentPlayerNumber) + ".html", GENERATED_HTML_DIR);
-                System.out.println(currentPlayerNumber);
-
-                System.out.println(currentPlayerNumber);
             }
-
-            currentPlayerNumber = 0;
         }
     }
 }
