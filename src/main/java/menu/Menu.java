@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import map.Tile;
 import player.Player;
+import utils.Color;
 import utils.FileHelperUtils;
 
 public class Menu {
@@ -15,7 +16,9 @@ public class Menu {
     private static GameEngine gameEngine = GameEngine.getInstance();
 
     public static void main(String[] args) {
-
+        System.out.print(Color.CYAN_BOLD_BRIGHT);
+        System.out.println("Welcome to Water tiles!!");
+        System.out.print(Color.RESET);
         /* calling helper function to get number of players and map size*/
         setupGameValues();
 
@@ -43,14 +46,16 @@ public class Menu {
             System.out.println("Generated Updated Maps");
             /* Getting moves for all players */
             for (currentPlayerNumber = 0; currentPlayerNumber < playerList.size(); ++currentPlayerNumber) {
-                System.out.println(playerList.get(currentPlayerNumber).getId() + "'s turn");
+                System.out.print(Color.MAGENTA_UNDERLINED);
+                System.out.println(playerList.get(currentPlayerNumber).getId());
+                System.out.print(Color.RESET);
                 System.out.println("Enter move [u, d, l, r]:");
                 input = scanner.next().charAt(0);
 
                 if (!gameEngine.handleInput(input, currentPlayerNumber)) {
-                    System.out.print("\033[0;31m");
+                    System.out.print(Color.RED);
                     System.out.println("Cannot move in that direction. Enter a different move");
-                    System.out.print("\033[0m");
+                    System.out.print(Color.RESET);
                     --currentPlayerNumber;
                 }
 
@@ -66,7 +71,9 @@ public class Menu {
                 /* Check if treasure is found */
                 if (playerList.get(currentPlayerNumber).isWinner()) {
                     treasureFound = true;
-                    System.out.print("Player " + currentPlayerNumber + " found the treasure");
+                    System.out.print(Color.YELLOW_BOLD);
+                    System.out.println("Player " + currentPlayerNumber + " found the treasure");
+                    System.out.print(Color.RESET);
                 }
             }
         }
