@@ -1,23 +1,34 @@
 package menu;
 
-import html.*;
-import map.*;
-import player.*;
-import utils.FileHelperUtils;
-
 import java.util.ArrayList;
 import java.util.Random;
+
+import html.Director;
+import html.GenerateHtmlFiles;
+import html.MapPageBuilder;
+import html.Page;
+import html.PageBuilder;
+import map.Map;
+import map.Tile;
+import player.Direction;
+import player.Player;
 
 public class GameEngine {
 
     private static GameEngine gameEngine = null;
 
-    private GameEngine() {}
+    private GameEngine() {
+    }
 
     public static GameEngine getInstance() {
         if (gameEngine == null)
             gameEngine = new GameEngine();
 
+        return gameEngine;
+    }
+
+    GameEngine resetGameEngine() {
+        gameEngine = null;
         return gameEngine;
     }
 
@@ -32,14 +43,14 @@ public class GameEngine {
     }
 
     void createPlayers(int playerAmount) {
-        for(int i = 0; i < playerAmount; ++i) {
+        for (int i = 0; i < playerAmount; ++i) {
             Player player = new Player("Player " + i);
             playerList.add(player);
         }
     }
 
     Tile[][] createMap(int mapSize, int playerAmount) {
-        if(Map.getInstance().setMapSize(mapSize, playerAmount)) {
+        if (Map.getInstance().setMapSize(mapSize, playerAmount)) {
             return Map.getInstance().generateMap(new Random());
         }
         return null;
@@ -62,7 +73,7 @@ public class GameEngine {
             director.construct(gameBoard, player);
         } catch (Exception e) {
             System.out.println("Error constructing html file. Game exiting");
-            System.exit(-1);
+            throw new RuntimeException("Error constructing HTML");
         }
 
         Page myPage = builder.getPage();
