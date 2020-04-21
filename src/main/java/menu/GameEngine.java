@@ -21,52 +21,39 @@ public class GameEngine {
         return gameEngine;
     }
 
-    ArrayList<Player> playerList = new ArrayList<>();
+    private ArrayList<Player> playerList = new ArrayList<>();
 
-    public ArrayList<Player> getPlayerList() {
+    ArrayList<Player> getPlayerList() {
         return playerList;
     }
 
-    public boolean validatePlayers(int playerAmount) {
+    boolean validatePlayers(int playerAmount) {
         return playerAmount >= 2 && playerAmount <= 8;
     }
 
-    public void createPlayers(int playerAmount) {
+    void createPlayers(int playerAmount) {
         for(int i = 0; i < playerAmount; ++i) {
-            Player player = new Player(String.valueOf(i));
+            Player player = new Player("Player " + i);
             playerList.add(player);
         }
     }
 
-    public Tile[][] createMap(int mapSize, int playerAmount) {
+    Tile[][] createMap(int mapSize, int playerAmount) {
         if(Map.getInstance().setMapSize(mapSize, playerAmount)) {
             return Map.getInstance().generateMap(new Random());
         }
         return null;
     }
 
-    public boolean handleInput(char input, int playerNumber) {
-        switch(input) {
-            case 'u':
-                playerList.get(playerNumber).move(Direction.up);
-                return true;
-            case 'd':
-                playerList.get(playerNumber).move(Direction.down);
-                return true;
-            case 'l':
-                playerList.get(playerNumber).move(Direction.left);
-                return true;
-            case 'r':
-                playerList.get(playerNumber).move(Direction.right);
-                return true;
-            default:
-                return false;
+    boolean handleInput(char input, int playerNumber) {
+        if (Direction.get(input) != null) {
+            return playerList.get(playerNumber).move(Direction.get(input));
         }
+        return false;
     }
 
-    public void writeHtml(Tile[][] gameBoard, Player player, int playerNumber) {
+    void writeHtml(Tile[][] gameBoard, Player player, int playerNumber) {
         String GENERATED_HTML_DIR = "generatedHtml";
-
 
         PageBuilder builder = new MapPageBuilder();
         Director director = new Director(builder);
