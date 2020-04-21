@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,8 +13,13 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+import html.GenerateHtmlFiles;
 import map.GrassTile;
 import map.Tile;
 import map.TreasureTile;
@@ -23,6 +29,8 @@ import player.Player;
 import player.Position;
 import utils.FileHelperUtils;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(GenerateHtmlFiles.class)
 public class GameEngineTest {
     private GameEngine gameEngine;
 
@@ -101,19 +109,30 @@ public class GameEngineTest {
 
     @Test
     public void writeHtmlTest() {
+        // creating a mock singleton object
+        GenerateHtmlFiles generateHtmlFiles = Mockito.mock(GenerateHtmlFiles.class);
+
+        // using powermockito to mock static getInstance method to have it return our mock object
+        PowerMockito.mockStatic(GenerateHtmlFiles.class);
+        PowerMockito.doReturn(generateHtmlFiles).when(GenerateHtmlFiles.class);
+        GenerateHtmlFiles.getInstance();
+
+
         FileHelperUtils.deleteDirectory("generatedHTML");
 
+        // creating a mock player
         Player player = Mockito.mock(Player.class);
 
+        // mocking player methods
         Mockito.when(player.getId()).thenReturn("Player 1");
         Mockito.when(player.getPastMoves()).thenReturn(new ArrayList<>());
         Mockito.when(player.getCurrentPosition()).thenReturn(new Position(0, 0));
 
+        // mocking generateHtmlFile method to do nothing since it is an inner method
+        Mockito.doNothing().when(generateHtmlFiles).generateHtmlFile(any(), any(), any());
 
         Tile[][] mockBoard = {{new GrassTile(), new GrassTile()}, {new TreasureTile(), new WaterTile()}};
         gameEngine.writeHtml(mockBoard, player, 0);
-
-        assertTrue(new File("generatedHTML/map_player_0.html").exists());
 
         FileHelperUtils.deleteDirectory("generatedHTML");
     }

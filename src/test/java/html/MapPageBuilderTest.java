@@ -3,7 +3,6 @@ package html;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -109,8 +108,6 @@ public class MapPageBuilderTest {
         mapPageBuilder.loadTemplate(MAP_TEMPLATE);
 
         mapPageBuilder.buildMoves(new ArrayList<>(Arrays.asList(Direction.up, Direction.down)));
-
-        System.out.println(mapPageBuilder.getPage().getHtml());
 
         assertFalse(mapPageBuilder.getPage().getHtml().contains("$pastmoves"));
         assertTrue(mapPageBuilder.getPage().getHtml().contains("<tr><td>up</td></tr>"));
