@@ -2,7 +2,11 @@ package menu;
 
 import map.Tile;
 import menu.GameEngine;
+import player.Direction;
+import player.Player;
+
 import org.junit.*;
+import org.mockito.Mockito;
 
 import javax.swing.*;
 
@@ -18,23 +22,23 @@ public class GameEngineTest {
 
     @After
     public void teardown() {
-        gameEngine = null;
+        gameEngine.resetGameEngine();
     }
 
     @Test
-    public void createPlayersLess() {
+    public void validatePlayersLess() {
         boolean response = gameEngine.validatePlayers(1);
         assertFalse(response);
     }
 
     @Test
-    public void createPlayersMore() {
+    public void validatePlayersMore() {
         boolean response = gameEngine.validatePlayers(9);
         assertFalse(response);
     }
 
     @Test
-    public void createPlayersCorrect() {
+    public void validatePlayersCorrect() {
         boolean response = gameEngine.validatePlayers(5);
         assertTrue(response);
     }
@@ -49,5 +53,23 @@ public class GameEngineTest {
     public void setMapSizeFalse() {
         Tile[][] response = gameEngine.createMap(1, 1);
         assertNull(response);
+    }
+
+    @Test
+    public void handleInputTestSuccess() {
+        Player player = Mockito.mock(Player.class);
+        gameEngine.getPlayerList().add(player);
+
+        Mockito.when(gameEngine.getPlayerList().get(0).move(Direction.down)).thenReturn(true);
+        assertTrue(gameEngine.handleInput('d', 0));
+    }
+
+    @Test
+    public void handleInputTestFailure() {
+        Player player = Mockito.mock(Player.class);
+        gameEngine.getPlayerList().add(player);
+
+        Mockito.when(gameEngine.getPlayerList().get(0).move(Direction.down)).thenReturn(true);
+        assertFalse(gameEngine.handleInput('e', 0));
     }
 }
