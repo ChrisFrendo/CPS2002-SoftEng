@@ -38,7 +38,7 @@ public class Player {
         return pastMoves;
     }
 
-    boolean isWinner() {
+    public boolean isWinner() {
         return winner;
     }
 
@@ -97,7 +97,5 @@ public class Player {
         } else {
             return false;
         }
-
     }
-
 }

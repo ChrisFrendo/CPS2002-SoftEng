@@ -64,7 +64,10 @@ public class MapPageBuilder extends PageBuilder {
     void buildMoves(List<Direction> movesList) {
         StringBuilder movesHtml = new StringBuilder();
 
-        movesList.forEach(direction -> movesHtml.append("<tr><td>").append(direction.toString()).append("</td></tr>"));
+        for (int i = movesList.size() - 1; i >= 0; i--) {
+            movesHtml.append("<tr><td>").append(movesList.get(i).toString()).append("</td></tr>");
+        }
+
 
         page.html = page.html.replace("$pastmoves", movesHtml);
     }
