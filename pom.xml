@@ -27,6 +27,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/utils/**</exclude>
+                        <exclude>**/Menu.*</exclude>
                     </excludes>
                 </configuration>
 
