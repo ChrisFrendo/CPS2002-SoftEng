@@ -3,6 +3,7 @@ package map;
 import java.util.Random;
 
 import exceptions.InvalidMapSizeException;
+import utils.Path;
 
 public class Map {
     private int size;
@@ -65,7 +66,10 @@ public class Map {
             throw new NullPointerException("Map is not initialized yet. Call generateMap");
         }
 
-        return tiles[row][column].getStatus().equals(Tile.Status.GRASS);
+        if (!tiles[row][column].getStatus().equals(Tile.Status.GRASS))
+            return false;
+
+        return Path.isPath(tiles, row, column, tiles.length);
     }
 
     public boolean tileExists(int row, int column) {

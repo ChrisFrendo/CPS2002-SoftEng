@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 import map.Map;
 import map.Tile;
+import utils.Path;
 
 public class PlayerTest {
     private Player player1;
@@ -69,6 +70,7 @@ public class PlayerTest {
         int column = player1.getCurrentPosition().getColumn();
 
         assertEquals(tiles[row][column].getStatus(), Tile.Status.GRASS);
+        assertTrue(Path.isPath(tiles, row, column, tiles.length));
     }
 
     @Test
