@@ -11,7 +11,7 @@ import utils.Color;
 import utils.FileHelperUtils;
 
 public class Menu {
-    static int playerAmount = 0;
+    private static int playerAmount = 0;
     private static Tile[][] gameBoard = null;
     private static Scanner scanner = new Scanner(System.in);
     private static GameEngine gameEngine = GameEngine.getInstance();
@@ -58,7 +58,7 @@ public class Menu {
         }
     }
 
-    static void getPlayerMoves(List<Player> playerList) {
+    private static void getPlayerMoves(List<Player> playerList) {
         char input;
 
         /* Getting moves for all players */
@@ -79,7 +79,7 @@ public class Menu {
         }
     }
 
-    static void setupGameValues() {
+    private static void setupGameValues() {
         System.out.println("================================================");
         /* Prompts for amount of players */
         System.out.println("Enter number of players:");
@@ -116,14 +116,14 @@ public class Menu {
         return value;
     }
 
-    static void generateHtml(List<Player> playerList) {
+    private static void generateHtml(List<Player> playerList) {
         /* Generating html for each player */
         for (int i = 0; i < playerList.size(); i++) {
             gameEngine.writeHtml(gameBoard, playerList.get(i), i);
         }
     }
 
-    static boolean checkWinners(List<Player> playerList) {
+    private static boolean checkWinners(List<Player> playerList) {
         boolean treasureFound = false;
         /* Checking if there are any winners */
         for (int i = 0; i < playerList.size(); i++) {
