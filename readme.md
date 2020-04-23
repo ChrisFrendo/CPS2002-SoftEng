@@ -4,6 +4,13 @@ Water tiles is a console based game intended for 2 to 8 players. It is a tile ga
 where the player has to find the treasure while avoiding water tiles because these
 will send him back to the starting position!!
 
+## Installation
+
+1. Clone this repository or download the zip file
+2. Open the project using your favorite ide
+3. Find the Menu class in /src/main/java/menu
+4. Run the main method in this Menu class from your ide.
+
 ## Game Flow
 
 Upon starting the game some initial details have to be filled in, particularly 
