@@ -141,6 +141,22 @@ public class MapTest {
             assertTrue(result);
         }
 
+        @Test
+        public void isValidStartingPositionInvalid() {
+            int size = 5;
+            map.setMapSize(size, 4);
+
+            Random r = Mockito.mock(Random.class);
+
+            Mockito.when(r.nextInt(size)).thenReturn(0, 0, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
+
+            map.generateMap(r);
+
+            boolean result = Map.getInstance().isValidStartingPosition(0, 0);
+
+            assertFalse(result);
+        }
+
         @Test(expected = NullPointerException.class)
         public void isValidStartingPositionNull() {
             Map.resetInstance();
