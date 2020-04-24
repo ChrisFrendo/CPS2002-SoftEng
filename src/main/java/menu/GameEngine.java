@@ -1,6 +1,7 @@
 package menu;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import html.Director;
@@ -13,13 +14,30 @@ import map.Tile;
 import player.Direction;
 import player.Player;
 
+/**
+ * This singleton class is used to drive the game
+ */
 public class GameEngine {
 
+    /**
+     * Singleton instance of GameEngine
+     */
     private static GameEngine gameEngine = null;
+
+    /**
+     * List of type player containing all players currently playing the game
+     */
+    private List<Player> playerList = new ArrayList<>();
+
 
     private GameEngine() {
     }
 
+    /**
+     * Getter for the singleton GameEngine instance
+     *
+     * @return the single GameEngine instance
+     */
     public static GameEngine getInstance() {
         if (gameEngine == null)
             gameEngine = new GameEngine();
@@ -27,14 +45,23 @@ public class GameEngine {
         return gameEngine;
     }
 
+    /**
+     * This method resets the single GameEngine instance
+     *
+     * @return the empty single GameEngine instance
+     */
     GameEngine resetGameEngine() {
         gameEngine = null;
         return gameEngine;
     }
 
-    private ArrayList<Player> playerList = new ArrayList<>();
 
-    ArrayList<Player> getPlayerList() {
+    /**
+     * Getter for playerList
+     *
+     * @return A list of type Player
+     */
+    List<Player> getPlayerList() {
         return playerList;
     }
 
@@ -48,7 +75,8 @@ public class GameEngine {
         return playerAmount >= 2 && playerAmount <= 8;
     }
 
-    /** This method creates the players and stores them in an arraylist
+    /**
+     * This method creates the players and stores them in an arraylist
      *
      * @param playerAmount the amount of players tp be created
      */
@@ -59,9 +87,10 @@ public class GameEngine {
         }
     }
 
-    /** This method takes care of creating and generating the map and tiles
+    /**
+     * This method takes care of creating and generating the map and tiles
      *
-     * @param mapSize the desired map size
+     * @param mapSize      the desired map size
      * @param playerAmount the amount of players that will be populated on the map
      * @return the board that was just created, null if the creation failed
      */
@@ -75,7 +104,7 @@ public class GameEngine {
     /**
      * This method takes care of the input and moves the indicated player as demanded
      *
-     * @param input the character indicating the direction the player is to be moved
+     * @param input        the character indicating the direction the player is to be moved
      * @param playerNumber the number of the player to be moved
      * @return true if the player was moved successfully, false otherwise
      */
@@ -89,8 +118,8 @@ public class GameEngine {
     /**
      * This method generates html that displays the position of the player
      *
-     * @param gameBoard the board that the game is being played on
-     * @param player the player object that the html is being generated for
+     * @param gameBoard    the board that the game is being played on
+     * @param player       the player object that the html is being generated for
      * @param playerNumber the player number of the player that the html is being generated for
      */
     void writeHtml(Tile[][] gameBoard, Player player, int playerNumber) {

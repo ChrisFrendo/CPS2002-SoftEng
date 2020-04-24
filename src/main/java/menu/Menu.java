@@ -1,6 +1,5 @@
 package menu;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -10,12 +9,40 @@ import player.Player;
 import utils.Color;
 import utils.FileHelperUtils;
 
+/**
+ * Main class used to run the game
+ */
 public class Menu {
+
+    /**
+     * static field used to keep track of the number of players in the game
+     */
     private static int playerAmount = 0;
+
+
+    /**
+     * static field used to store the map currently being played
+     */
     private static Tile[][] gameBoard = null;
+
+
+    /**
+     * static instance of a scanner used to get input from the console
+     */
     private static Scanner scanner = new Scanner(System.in);
+
+
+    /**
+     * static instance of GameEngine whose methods are used to drive the game
+     */
     private static GameEngine gameEngine = GameEngine.getInstance();
 
+
+    /**
+     * Main method
+     *
+     * @param args any arguments passed to the program, none are used in the game
+     */
     public static void main(String[] args) {
         System.out.print(Color.CYAN_BOLD_BRIGHT);
         System.out.println("Welcome to Water tiles!!");
@@ -36,7 +63,7 @@ public class Menu {
 
         /* Creates Players */
         gameEngine.createPlayers(playerAmount);
-        ArrayList<Player> playerList = gameEngine.getPlayerList();
+        List<Player> playerList = gameEngine.getPlayerList();
 
         FileHelperUtils.deleteDirectory("generatedHTML");
 
@@ -58,6 +85,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Helper function used to get the moves for all the players
+     *
+     * @param playerList The list of currently playing players
+     */
     private static void getPlayerMoves(List<Player> playerList) {
         char input;
 
@@ -79,6 +111,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Helper function used to get the number of players and size of the map from the console
+     */
     private static void setupGameValues() {
         System.out.println("================================================");
         /* Prompts for amount of players */
@@ -103,6 +138,11 @@ public class Menu {
         System.out.println("================================================");
     }
 
+    /**
+     * Helper function used to get an integer input from the console
+     *
+     * @return The inputted integer to the console
+     */
     private static int getIntInput() {
         int value;
         try {
@@ -116,6 +156,11 @@ public class Menu {
         return value;
     }
 
+    /**
+     * Helper function used to generate the html file for each player
+     *
+     * @param playerList List of currently playing players
+     */
     private static void generateHtml(List<Player> playerList) {
         /* Generating html for each player */
         for (int i = 0; i < playerList.size(); i++) {
@@ -123,6 +168,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Helper function used to check if there are any winners. Prints out any winners
+     *
+     * @param playerList List of players currently playing the game
+     * @return true if there are winners, false otherwise
+     */
     private static boolean checkWinners(List<Player> playerList) {
         boolean treasureFound = false;
         /* Checking if there are any winners */
