@@ -7,7 +7,14 @@ import player.Direction;
 import player.Player;
 import utils.FileHelperUtils;
 
+/**
+ * A concrete builder used to generate the html web page
+ */
 public class MapPageBuilder extends PageBuilder {
+
+    /**
+     * An instance of Page used to store the current page and its html
+     */
     private Page page = new Page();
 
     @Override
