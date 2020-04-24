@@ -46,6 +46,14 @@ public class Player {
         return currentPosition;
     }
 
+    /**
+     * This method generated a random position on the map. It then checks if the position
+     * is valid and returns it if it is. If it is not, it generating until a valid position
+     * is found.
+     *
+     * @param r an instance of random used to generate the random numbers
+     * @return a valid position on the already created map
+     */
     private static Position generateRandomPosition(Random r) {
         int size = Map.getInstance().getSize();
 
@@ -59,6 +67,14 @@ public class Player {
         }
     }
 
+    /**
+     * This method tries to move the player in the desired direction.
+     * It also validates if the move was successful i.e. if the
+     * new position is a tile that exists on the map.
+     *
+     * @param direction one of the four possible directions
+     * @return true if the move was successful, false otherwise
+     */
     public boolean move(Direction direction) {
         int newRow;
         int newColumn;
