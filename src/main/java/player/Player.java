@@ -38,10 +38,18 @@ public class Player {
         return pastMoves;
     }
 
+    /**
+     * This method checks whether the player is a winner
+     * @return true if the player is a winner, false otherwise
+     */
     public boolean isWinner() {
         return winner;
     }
 
+    /**
+     * Getter for the current position of the player
+     * @return the current position of the player
+     */
     public Position getCurrentPosition() {
         return currentPosition;
     }

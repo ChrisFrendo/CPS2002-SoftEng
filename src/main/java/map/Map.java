@@ -11,9 +11,12 @@ public class Map {
     private static Map map = null;
 
     private Map() {
-
     }
 
+    /**
+     * This method resets the single map instance
+     * @return the empty single map instance
+     */
     public static Map resetInstance() {
         map.size = 0;
         map.tiles = null;
@@ -21,6 +24,10 @@ public class Map {
         return map;
     }
 
+    /**
+     * Getter for the singleton map instance
+     * @return the single map instance
+     */
     public static Map getInstance() {
         if (map == null)
             map = new Map();
@@ -29,7 +36,7 @@ public class Map {
     }
 
     /**
-     * This method sets the size of the map provided that the parameters
+     * This setter sets the size of the map provided that the parameters
      * are within the boundaries specified
      *
      * @param size the length of the side of the desired square map
@@ -69,6 +76,10 @@ public class Map {
         return tiles;
     }
 
+    /**
+     * Getter for the map size
+     * @return map size
+     */
     public int getSize() {
         return size;
     }
