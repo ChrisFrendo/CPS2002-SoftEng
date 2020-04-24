@@ -14,8 +14,18 @@ import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 
+/**
+ * Static class which contains methods used to manipulate files and folders
+ */
 public class FileHelperUtils {
 
+    /**
+     * Helper function which reads the entire contents of the file and returns them as a single String
+     *
+     * @param filePath The path of the file whose contents to read
+     * @return A string containing the whole contents of the file
+     * @throws Exception Throws an exception when an IO error happens during reading of file
+     */
     public static String readWholeFile(String filePath) throws Exception {
 
         StringBuilder contentBuilder = new StringBuilder();
@@ -29,11 +39,22 @@ public class FileHelperUtils {
         return contentBuilder.toString();
     }
 
+    /**
+     * Helper function to create a directory
+     *
+     * @param dirName The name of the directory to create
+     */
     public static void mkDir(String dirName) {
         File file = new File(dirName);
         file.mkdir();
     }
 
+    /**
+     * Helper function used to write contents to a file
+     *
+     * @param filename    The name of the file to write contents to
+     * @param fileContent The contents to write into the file
+     */
     public static void writeToFile(String filename, String fileContent) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write(fileContent);
@@ -44,6 +65,12 @@ public class FileHelperUtils {
         }
     }
 
+    /**
+     * Helper function used to copy a file
+     *
+     * @param src  Path to source file
+     * @param dest Path where to place copied file
+     */
     public static void copyFile(String src, String dest) {
         File destFile = new File(dest);
         if (!destFile.exists()) {
@@ -58,6 +85,12 @@ public class FileHelperUtils {
         }
     }
 
+    /**
+     * Helper function used to get the file path of a resource in the resources folder
+     *
+     * @param resourceName The name of the resource whose file path to get
+     * @return The file path of the required resource
+     */
     public static String getResourceFilePath(String resourceName) {
         URL res = Objects.requireNonNull(FileHelperUtils.class.getClassLoader().getResource(resourceName));
         try {
@@ -70,6 +103,11 @@ public class FileHelperUtils {
         return null;
     }
 
+    /**
+     * Helper function used to delete a directory and its contents
+     *
+     * @param directoryName The path of the directory to delete
+     */
     public static void deleteDirectory(String directoryName) {
         File dir = new File(directoryName);
 

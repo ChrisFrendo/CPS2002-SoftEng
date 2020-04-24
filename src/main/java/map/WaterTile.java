@@ -1,9 +1,14 @@
 package map;
 
+/**
+ * Subclass of Tile used to represent a Water Tile on the map
+ */
 public class WaterTile extends Tile {
 
+    /**
+     * html string used to represent a water tile
+     */
     private static final String HTML = "<img alt=\"Water tile\" src=\"images/tiles/WaterTile.png\">";
-    private static final String HTML_NOT_VISITED = "<img alt=\"Water tile\" src=\"images/tiles/HiddenTile.png\">";
 
     @Override
     public String getHtml(boolean visited) {

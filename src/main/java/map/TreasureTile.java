@@ -1,9 +1,14 @@
 package map;
 
+/**
+ * Subclass of Tile used to represent a Treasure Tile on the map
+ */
 public class TreasureTile extends Tile {
 
+    /**
+     * html string used to represent a treasure tile
+     */
     private static final String HTML = "<img alt=\"Treasure tile\" src=\"images/tiles/TreasureTile.png\">";
-    private static final String HTML_NOT_VISITED = "<img alt=\"Treasure tile\" src=\"images/tiles/HiddenTile.png\">";
 
     @Override
     public String getHtml(boolean visited) {
