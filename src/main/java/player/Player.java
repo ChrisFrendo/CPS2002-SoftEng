@@ -7,6 +7,9 @@ import java.util.Random;
 import map.Map;
 import map.Tile;
 
+/**
+ * Class that represents a player in the game
+ */
 public class Player {
 
     private Position currentPosition;
@@ -26,10 +29,20 @@ public class Player {
         this.pastMoves = new ArrayList<>();
     }
 
+    /**
+     * Getter
+     *
+     * @return player ID
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Getter
+     *
+     * @return list containing the tiles visited by a player
+     */
     public List<Tile> getVisitedTiles() {
         return visitedTiles;
     }
@@ -38,14 +51,32 @@ public class Player {
         return pastMoves;
     }
 
+    /**
+     * This method checks whether the player is a winner
+     *
+     * @return true if the player is a winner, false otherwise
+     */
     public boolean isWinner() {
         return winner;
     }
 
+    /**
+     * Getter
+     *
+     * @return the current position of the player
+     */
     public Position getCurrentPosition() {
         return currentPosition;
     }
 
+    /**
+     * This method generates a random position on the map. It then checks if the position
+     * is valid and returns it if it is. If it is not, it generating until a valid position
+     * is found.
+     *
+     * @param r an instance of random used to generate the random numbers
+     * @return a valid position on the already created map
+     */
     private static Position generateRandomPosition(Random r) {
         int size = Map.getInstance().getSize();
 
@@ -59,6 +90,14 @@ public class Player {
         }
     }
 
+    /**
+     * This method tries to move the player in the desired direction.
+     * It also validates if the move was successful i.e. if the
+     * new position is a tile that exists on the map.
+     *
+     * @param direction one of the four possible directions
+     * @return true if the move was successful, false otherwise
+     */
     public boolean move(Direction direction) {
         int newRow;
         int newColumn;
