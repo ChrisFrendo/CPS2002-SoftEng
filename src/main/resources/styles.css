@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    font-family: Arial, serif;
+    background: url(./images/sky-bg.jpg);
+    animation: 15s linear 0s normal none infinite animate;
+}
+
+.map-container {
+    display: grid;
+    text-align: center;
+}
+
+@keyframes animate {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 1000px 0;
+    }
+}
+
+.header {
+    text-align: center;
+    background: #ffffff66;
+    padding: 10px 100px;
+}
+
+@font-face {
+    font-family: '04b30';
+    src: url('./title-font/04b_30__-webfont.woff2') format('woff2'), url('./title-font/04b_30__-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.header h1 {
+    font-family: '04b30', Arial, sans-serif;
+    font-style: normal;
+    margin: 0;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.display h2 {
+    margin: 10px 0 0 0;
+}
+
+.container {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.map {
+    max-width: 100vh;
+    max-height: 80vh;
+    overflow: auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    width: 80vh;
+    margin: 30px 0;
+    display: inline-block;
+    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.75);
+}
+
+.moves {
+    display: grid;
+    margin: 30px 80px 30px 30px;
+    text-align: center;
+}
+
+.moves table {
+    background: #ffffff66;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.map table {
+    width: 80vh;
+    background: black;
+}
+
+.map table td img {
+    vertical-align: middle;
+    width: 100%;
+    min-width: 35px;
+}
