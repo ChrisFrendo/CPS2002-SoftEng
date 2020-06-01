@@ -59,15 +59,15 @@ public class GenerateHtmlFiles {
      * @param baseFolderName The name of the root directory to place the files in
      */
     private void copyFiles(String baseFolderName) {
-        FileHelperUtils.copyFile("images/sky-bg.jpg", baseFolderName + "/images/sky-bg.jpg");
-        FileHelperUtils.copyFile("images/tiles/GrassTile.png", baseFolderName + "/images/tiles/GrassTile.png");
-        FileHelperUtils.copyFile("images/tiles/WaterTile.png", baseFolderName + "/images/tiles/WaterTile.png");
-        FileHelperUtils.copyFile("images/tiles/TreasureTile.png", baseFolderName + "/images/tiles/TreasureTile.png");
-        FileHelperUtils.copyFile("images/tiles/HiddenTile.png", baseFolderName + "/images/tiles/HiddenTile.png");
-        FileHelperUtils.copyFile("images/tiles/GrassTilePlayer.png", baseFolderName + "/images/tiles/GrassTilePlayer.png");
-        FileHelperUtils.copyFile("styles.css", baseFolderName + "/styles.css");
-        FileHelperUtils.copyFile("title-font/04b_30__-webfont.woff", baseFolderName + "/title-font/04b_30__-webfont.woff");
-        FileHelperUtils.copyFile("title-font/04b_30__-webfont.woff2", baseFolderName + "/title-font/04b_30__-webfont.woff2");
+        FileHelperUtils.copyFile("resources/images/sky-bg.jpg", baseFolderName + "/images/sky-bg.jpg");
+        FileHelperUtils.copyFile("resources/images/tiles/GrassTile.png", baseFolderName + "/images/tiles/GrassTile.png");
+        FileHelperUtils.copyFile("resources/images/tiles/WaterTile.png", baseFolderName + "/images/tiles/WaterTile.png");
+        FileHelperUtils.copyFile("resources/images/tiles/TreasureTile.png", baseFolderName + "/images/tiles/TreasureTile.png");
+        FileHelperUtils.copyFile("resources/images/tiles/HiddenTile.png", baseFolderName + "/images/tiles/HiddenTile.png");
+        FileHelperUtils.copyFile("resources/images/tiles/GrassTilePlayer.png", baseFolderName + "/images/tiles/GrassTilePlayer.png");
+        FileHelperUtils.copyFile("resources/styles.css", baseFolderName + "/styles.css");
+        FileHelperUtils.copyFile("resources/title-font/04b_30__-webfont.woff", baseFolderName + "/title-font/04b_30__-webfont.woff");
+        FileHelperUtils.copyFile("resources/title-font/04b_30__-webfont.woff2", baseFolderName + "/title-font/04b_30__-webfont.woff2");
     }
 
     /**
