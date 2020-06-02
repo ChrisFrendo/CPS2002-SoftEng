@@ -37,16 +37,24 @@ public class Menu {
      */
     private static GameEngine gameEngine = GameEngine.getInstance();
 
+    /**
+     * Boolean used to determine if console outputs should have ansi colours or not
+     */
+    private static boolean withColours = false;
 
     /**
      * Main method
      *
-     * @param args any arguments passed to the program, none are used in the game
+     * @param args any arguments passed to the program
+     *             One arg is used, to determine if game should use ANSI colours or not
+     *             if "colours" is passed then game uses colours, else no colours are used
      */
     public static void main(String[] args) {
-        System.out.print(Color.CYAN_BOLD_BRIGHT);
-        System.out.println("Welcome to Water tiles!!");
-        System.out.print(Color.RESET);
+        if (args.length > 0 && args[0].equals("colours")) {
+            withColours = true;
+        }
+
+        printWithColour(Color.CYAN_BOLD_BRIGHT, "Welcome to Water tiles!!");
 
         /* calling helper function to get number of players and map size*/
         while (true) {
@@ -95,16 +103,12 @@ public class Menu {
 
         /* Getting moves for all players */
         for (int i = 0; i < playerList.size(); ++i) {
-            System.out.print(Color.MAGENTA_UNDERLINED);
-            System.out.println(playerList.get(i).getId());
-            System.out.print(Color.RESET);
+            printWithColour(Color.MAGENTA, playerList.get(i).getId());
             System.out.println("Enter move [u, d, l, r]:");
             input = scanner.next().charAt(0);
 
             if (!gameEngine.handleInput(input, i)) {
-                System.out.print(Color.RED);
-                System.out.println("Cannot move in that direction. Enter a different move");
-                System.out.print(Color.RESET);
+                printWithColour(Color.RED, "Cannot move in that direction. Enter a different move");
                 --i;
             }
 
@@ -117,16 +121,16 @@ public class Menu {
     private static void setupGameValues() {
         System.out.println("================================================");
         /* Prompts for amount of players */
-        System.out.println("Enter number of players:");
         while (!gameEngine.validatePlayers(playerAmount)) {
+            System.out.println("Enter number of players:");
             System.out.println("Please enter an amount from 2 to 8");
             playerAmount = getIntInput();
             scanner.nextLine();
         }
 
         /* Prompts for map size */
-        System.out.println("Enter map size");
         while (gameBoard == null) {
+            System.out.println("Enter map size");
             System.out.println("Please enter a maximum of 50");
             System.out.println("and a minimum of 5 for 2-4 player");
             System.out.println("a minimum of 8 for 5-8 players");
@@ -148,9 +152,7 @@ public class Menu {
         try {
             value = scanner.nextInt();
         } catch (InputMismatchException e) {
-            System.out.print(Color.RED);
-            System.out.println("Invalid Input");
-            System.out.print(Color.RESET);
+            printWithColour(Color.RED, "Invalid Input");
             throw e;
         }
         return value;
@@ -177,15 +179,29 @@ public class Menu {
     private static boolean checkWinners(List<Player> playerList) {
         boolean treasureFound = false;
         /* Checking if there are any winners */
-        for (int i = 0; i < playerList.size(); i++) {
+        for (Player player : playerList) {
             /* Check if treasure is found */
-            if (playerList.get(i).isWinner()) {
+            if (player.isWinner()) {
                 treasureFound = true;
-                System.out.print(Color.YELLOW_BOLD);
-                System.out.println("Player " + i + " found the treasure");
-                System.out.print(Color.RESET);
+                printWithColour(Color.YELLOW_BOLD, player.getId() + " found the treasure");
             }
         }
         return treasureFound;
+    }
+
+    /**
+     * Helper function used to print using ansi colours depending on withColours global variable
+     *
+     * @param color   The color to use
+     * @param message The message to print
+     */
+    private static void printWithColour(Color color, String message) {
+        if (withColours) {
+            System.out.print(color);
+            System.out.println(message);
+            System.out.print(Color.RESET);
+        } else {
+            System.out.println(message);
+        }
     }
 }
