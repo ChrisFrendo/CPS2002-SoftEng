@@ -9,25 +9,22 @@ import utils.Path;
 /**
  * This singleton class contains fields and methods requirement to create and use a map
  */
-public class Map {
+public abstract class Map {
     /**
      * The size of the map, map is a box so only one size element is needed
      */
-    private int size;
+    protected int size;
 
 
     /**
      * 2D Tile array used to store the actual game map
      */
-    private Tile[][] tiles;
+    protected Tile[][] tiles;
 
     /**
      * Singleton instance of Map class
      */
-    private static Map map = null;
-
-    private Map() {
-    }
+    protected static Map map = null;
 
     /**
      * This method resets the single map instance
@@ -37,18 +34,6 @@ public class Map {
     public static Map resetInstance() {
         map.size = 0;
         map.tiles = null;
-
-        return map;
-    }
-
-    /**
-     * Getter for the singleton map instance
-     *
-     * @return the single map instance
-     */
-    public static Map getInstance() {
-        if (map == null)
-            map = new Map();
 
         return map;
     }
@@ -75,25 +60,7 @@ public class Map {
         return true;
     }
 
-    /**
-     * This method generated different tiles that make up the board
-     *
-     * @param r an instance of random used to generate the random numbers
-     * @return the board that was generated
-     */
-    public Tile[][] generateMap(Random r) {
-        if (this.size < 5) {
-            throw new InvalidMapSizeException("Size should be greater than 5: Call setMapSize before");
-        }
 
-        tiles = new Tile[this.size][this.size];
-
-        generateWaterTiles(r);
-        generateTreasureTile(r);
-        generateGrassTiles();
-
-        return tiles;
-    }
 
     /**
      * Getter for the map size
@@ -163,10 +130,10 @@ public class Map {
      *
      * @param r an instance of random used to generate the random numbers
      */
-    private void generateWaterTiles(Random r) {
+    protected void generateWaterTiles(Random r, double probability) {
 
         int totalNumTiles = this.size * this.size;
-        int numWaterTiles = (int) Math.floor(0.20 * totalNumTiles);
+        int numWaterTiles = (int) Math.floor(probability * totalNumTiles);
 
         for (int i = 0; i < numWaterTiles; i++) {
             // randomly generate coordinates
@@ -181,7 +148,6 @@ public class Map {
                 i--;
             }
         }
-
     }
 
     /**
@@ -189,7 +155,7 @@ public class Map {
      *
      * @param r an instance of random used to generate the random numbers
      */
-    private void generateTreasureTile(Random r) {
+    protected void generateTreasureTile(Random r) {
 
         int row = r.nextInt(this.size);
         int column = r.nextInt(this.size);
@@ -205,7 +171,7 @@ public class Map {
      * This method generates the grass tiles by setting tiles without a status
      * as grass tiles
      */
-    private void generateGrassTiles() {
+    protected void generateGrassTiles() {
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
                 if (tiles[i][j] == null)
