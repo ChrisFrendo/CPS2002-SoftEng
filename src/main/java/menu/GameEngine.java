@@ -19,6 +19,16 @@ import map.MapCreator;
  * This singleton class is used to drive the game
  */
 public class GameEngine {
+    /**
+     * Map instance global
+     */
+    private static Map map = null;
+
+    private static String mapType = "";
+
+    public static String getMapType() {
+        return mapType;
+    }
 
     /**
      * Singleton instance of GameEngine
@@ -96,7 +106,11 @@ public class GameEngine {
      * @return the board that was just created, null if the creation failed
      */
     Tile[][] createMap(int mapSize, int playerAmount) {
-        return MapCreator.createMap("Safe", mapSize, playerAmount);
+        map = MapCreator.getMapInstance("Safe", mapSize, playerAmount);
+        if (map != null) {
+            return map.generateMap(new Random());
+        }
+        return null;
     }
 
     /**

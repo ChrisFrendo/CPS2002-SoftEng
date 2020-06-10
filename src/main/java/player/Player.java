@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import map.Map;
+import map.MapCreator;
 import map.Tile;
+import menu.GameEngine;
 
 /**
  * Class that represents a player in the game
@@ -25,7 +27,11 @@ public class Player {
         this.startingPosition = generateRandomPosition(new Random());
         this.currentPosition = new Position(this.startingPosition);
         this.visitedTiles = new ArrayList<>();
-        this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
+
+        String mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
+
+        this.visitedTiles.add(map.getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
         this.pastMoves = new ArrayList<>();
     }
 
@@ -78,12 +84,15 @@ public class Player {
      * @return a valid position on the already created map
      */
     private static Position generateRandomPosition(Random r) {
-        int size = Map.getInstance().getSize();
+        String mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
+
+        int size = map.getSize();
 
         int row = r.nextInt(size);
         int column = r.nextInt(size);
 
-        if (Map.getInstance().isValidStartingPosition(row, column)) {
+        if (map.isValidStartingPosition(row, column)) {
             return new Position(row, column);
         } else {
             return generateRandomPosition(r);
@@ -101,6 +110,9 @@ public class Player {
     public boolean move(Direction direction) {
         int newRow;
         int newColumn;
+
+        String mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
 
         switch (direction) {
             case up:
@@ -120,8 +132,8 @@ public class Player {
                 newColumn = this.currentPosition.getColumn() + 1;
         }
 
-        if (Map.getInstance().tileExists(newRow, newColumn)) {
-            Tile.Status tileStatus = Map.getInstance().getTileStatus(newRow, newColumn);
+        if (map.tileExists(newRow, newColumn)) {
+            Tile.Status tileStatus = map.getTileStatus(newRow, newColumn);
             if (tileStatus.equals(Tile.Status.GRASS)) {
                 this.currentPosition.setPosition(newRow, newColumn);
             } else if (tileStatus.equals(Tile.Status.WATER)) {
@@ -130,7 +142,7 @@ public class Player {
                 this.currentPosition.setPosition(newRow, newColumn);
                 this.winner = true;
             }
-            this.visitedTiles.add(Map.getInstance().getTile(newRow, newColumn));
+            this.visitedTiles.add(map.getTile(newRow, newColumn));
             this.pastMoves.add(direction);
             return true;
         } else {

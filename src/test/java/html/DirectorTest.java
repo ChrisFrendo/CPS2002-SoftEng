@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import map.MapCreator;
+import menu.GameEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +32,11 @@ public class DirectorTest {
 
     @Before
     public void setUp() {
-        Map.getInstance().setMapSize(5, 2);
-        Map.getInstance().generateMap(new Random());
+        String mapType = "safe";
+        Map map = MapCreator.getMapInstance(mapType);
+
+        map.setMapSize(5, 2);
+        map.generateMap(new Random());
         director = new Director(builder);
     }
 
