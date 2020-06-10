@@ -179,4 +179,6 @@ public abstract class Map {
             }
         }
     }
+
+    public abstract Tile[][] generateMap(Random random);
 }

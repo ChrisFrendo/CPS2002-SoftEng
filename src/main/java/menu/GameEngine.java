@@ -13,6 +13,7 @@ import map.Map;
 import map.Tile;
 import player.Direction;
 import player.Player;
+import map.MapCreator;
 
 /**
  * This singleton class is used to drive the game
@@ -95,10 +96,7 @@ public class GameEngine {
      * @return the board that was just created, null if the creation failed
      */
     Tile[][] createMap(int mapSize, int playerAmount) {
-        if (Map.getInstance().setMapSize(mapSize, playerAmount)) {
-            return Map.getInstance().generateMap(new Random());
-        }
-        return null;
+        return MapCreator.createMap("Safe", mapSize, playerAmount);
     }
 
     /**
