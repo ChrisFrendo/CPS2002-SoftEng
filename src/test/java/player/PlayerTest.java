@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
+import map.MapCreator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        Map map = Map.getInstance();
+        Map map = MapCreator.getMapInstance("safe");
         map.setMapSize(5, 2);
 
         Random r = Mockito.mock(Random.class);

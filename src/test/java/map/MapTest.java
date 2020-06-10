@@ -28,7 +28,7 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            map = Map.getInstance();
+            Map map = MapCreator.getMapInstance("safe");
         }
 
         @After
@@ -136,7 +136,7 @@ public class MapTest {
 
             map.generateMap(r);
 
-            boolean result = Map.getInstance().isValidStartingPosition(0, 0);
+            boolean result = map.isValidStartingPosition(0, 0);
 
             assertTrue(result);
         }
@@ -152,7 +152,7 @@ public class MapTest {
 
             map.generateMap(r);
 
-            boolean result = Map.getInstance().isValidStartingPosition(0, 0);
+            boolean result = map.isValidStartingPosition(0, 0);
 
             assertFalse(result);
         }
@@ -161,7 +161,7 @@ public class MapTest {
         public void isValidStartingPositionNull() {
             Map.resetInstance();
 
-            Map.getInstance().isValidStartingPosition(2, 4);
+            map.isValidStartingPosition(2, 4);
         }
     }
 
@@ -186,7 +186,8 @@ public class MapTest {
 
         @Test
         public void test() {
-            assertEquals(fExpected, Map.getInstance().setMapSize(fInputSize, fInputNumPlayers));
+            Map map = MapCreator.getMapInstance("safe");
+            assertEquals(fExpected, map.setMapSize(fInputSize, fInputNumPlayers));
         }
     }
 }
