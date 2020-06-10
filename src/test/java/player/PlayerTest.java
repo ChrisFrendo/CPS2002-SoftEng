@@ -27,7 +27,8 @@ public class PlayerTest {
         map.setMapSize(5, 2);
 
         Random r = Mockito.mock(Random.class);
-        Mockito.when(r.nextInt(5)).thenReturn(1, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
+        Mockito.when(r.nextDouble()).thenReturn(0.09);
+        Mockito.when(r.nextInt(5)).thenReturn(1, 1, 1, 2, 2, 0);
 
         tiles = map.generateMap(r);
         player1 = new Player("Player 1");
@@ -53,14 +54,14 @@ public class PlayerTest {
 
     @Test
     public void moveTreasureTest() {
-        // 0,0 -> 3,3
-        player1.getCurrentPosition().setPosition(3, 3);
-        // 3,3 -> 3, 4
-        boolean result = player1.move(Direction.right);
+        // 0,0 -> 1,0
+        player1.getCurrentPosition().setPosition(1, 0);
+        // 1,0 -> 2, 0
+        boolean result = player1.move(Direction.down);
 
         assertTrue(result);
-        assertEquals(3, player1.getCurrentPosition().getRow());
-        assertEquals(4, player1.getCurrentPosition().getColumn());
+        assertEquals(2, player1.getCurrentPosition().getRow());
+        assertEquals(0, player1.getCurrentPosition().getColumn());
         assertTrue(player1.isWinner());
     }
 

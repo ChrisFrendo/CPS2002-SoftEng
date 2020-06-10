@@ -28,7 +28,7 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            Map map = MapCreator.getMapInstance("safe");
+            map = MapCreator.getMapInstance("safe");
         }
 
         @After
