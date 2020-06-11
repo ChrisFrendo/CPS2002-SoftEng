@@ -30,6 +30,7 @@ public class HazardousMap extends Map{
 
         double probability = 1;
         while(probability < 0.25 || probability > 0.35) {
+            System.out.println(probability);
             probability = r.nextDouble();
         }
 
