@@ -16,8 +16,10 @@ public abstract class MapCreator {
 
     private static MapCreator findCreatorType(String type) {
         switch(type) {
-            default:
+            case "safe":
                 return new SafeMapCreator();
+            default:
+                return new HazardousMapCreator();
         }
     }
 

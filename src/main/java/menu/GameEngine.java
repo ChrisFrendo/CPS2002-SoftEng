@@ -14,6 +14,7 @@ import map.Tile;
 import player.Direction;
 import player.Player;
 import map.MapCreator;
+import sun.management.MappedMXBeanType;
 
 /**
  * This singleton class is used to drive the game
@@ -105,8 +106,8 @@ public class GameEngine {
      * @param playerAmount the amount of players that will be populated on the map
      * @return the board that was just created, null if the creation failed
      */
-    Tile[][] createMap(int mapSize, int playerAmount) {
-        map = MapCreator.getMapInstance("Safe", mapSize, playerAmount);
+    Tile[][] createMap(int mapSize, int playerAmount, String mapType) {
+        map = MapCreator.getMapInstance(mapType, mapSize, playerAmount);
         if (map != null) {
             return map.generateMap(new Random());
         }

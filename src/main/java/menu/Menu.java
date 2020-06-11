@@ -132,8 +132,25 @@ public class Menu {
             System.out.println("a minimum of 8 for 5-8 players");
             int mapSize = getIntInput();
             scanner.nextLine();
-            gameBoard = gameEngine.createMap(mapSize, playerAmount);
+
+            System.out.println("Enter map type (enter corresponding number)");
+            System.out.println("1) Safe");
+            System.out.println("2) Hazardous");
+            int mapTypeInt = getIntInput();
+            String mapType;
+            scanner.nextLine();
+
+            switch(mapTypeInt){
+                case 1:
+                    mapType = "safe";
+                default:
+                    mapType = "hazardous";
+            }
+
+            gameBoard = gameEngine.createMap(mapSize, playerAmount, mapType);
         }
+
+
 
         System.out.println("================================================");
     }

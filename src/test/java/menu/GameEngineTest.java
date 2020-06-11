@@ -64,13 +64,13 @@ public class GameEngineTest {
 
     @Test
     public void setMapSizeTrue() {
-        Tile[][] response = gameEngine.createMap(5, 2);
+        Tile[][] response = gameEngine.createMap(5, 2, "safe");
         assertNotNull(response);
     }
 
     @Test
     public void setMapSizeFalse() {
-        Tile[][] response = gameEngine.createMap(1, 1);
+        Tile[][] response = gameEngine.createMap(1, 1, "safe");
         assertNull(response);
     }
 
@@ -101,7 +101,7 @@ public class GameEngineTest {
     public void createPlayersTest() {
         int x = 5;
 
-        gameEngine.createMap(10, x);
+        gameEngine.createMap(10, x, "safe");
         gameEngine.createPlayers(x);
 
         assertEquals(x, gameEngine.getPlayerList().size());
