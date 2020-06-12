@@ -21,6 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import html.GenerateHtmlFiles;
 import map.GrassTile;
+import map.MapCreator;
 import map.Tile;
 import map.TreasureTile;
 import map.WaterTile;
@@ -64,13 +65,13 @@ public class GameEngineTest {
 
     @Test
     public void setMapSizeTrue() {
-        Tile[][] response = gameEngine.createMap(5, 2, "safe");
+        Tile[][] response = gameEngine.createMap(5, 2, MapCreator.MapType.SAFE);
         assertNotNull(response);
     }
 
     @Test
     public void setMapSizeFalse() {
-        Tile[][] response = gameEngine.createMap(1, 1, "safe");
+        Tile[][] response = gameEngine.createMap(1, 1, MapCreator.MapType.SAFE);
         assertNull(response);
     }
 
@@ -101,7 +102,7 @@ public class GameEngineTest {
     public void createPlayersTest() {
         int x = 5;
 
-        gameEngine.createMap(10, x, "safe");
+        gameEngine.createMap(10, x, MapCreator.MapType.SAFE);
         gameEngine.createPlayers(x);
 
         assertEquals(x, gameEngine.getPlayerList().size());

@@ -28,24 +28,12 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            map = MapCreator.getMapInstance("safe");
+            map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
         }
 
         @After
         public void tearDown() {
             map = Map.resetInstance();
-        }
-
-        @Test
-        public void generateMap() {
-            int size = 5;
-            map.setMapSize(size, 4);
-            Random r = new Random();
-
-            Tile[][] tiles = map.generateMap(r);
-
-            assertEquals(size, tiles.length);
-            assertEquals(size, tiles[0].length);
         }
 
         @Test
@@ -86,36 +74,6 @@ public class MapTest {
             boolean response = map.tileExists(2, -1);
 
             assertFalse(response);
-        }
-
-        @Test
-        public void generateMapWaterOverlap() {
-            int size = 5;
-            map.setMapSize(size, 4);
-
-            Random r = Mockito.mock(Random.class);
-
-            Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
-
-            Tile[][] tiles = map.generateMap(r);
-
-            assertEquals(size, tiles.length);
-            assertEquals(size, tiles[0].length);
-        }
-
-        @Test
-        public void generateMapTreasureOverlapWater() {
-            int size = 5;
-            map.setMapSize(size, 4);
-
-            Random r = Mockito.mock(Random.class);
-
-            Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 2, 3, 3, 2, 3, 2, 3, 4);
-
-            Tile[][] tiles = map.generateMap(r);
-
-            assertEquals(size, tiles.length);
-            assertEquals(size, tiles[0].length);
         }
 
         @Test(expected = InvalidMapSizeException.class)
@@ -185,8 +143,8 @@ public class MapTest {
         public boolean fExpected;
 
         @Test
-        public void test() {
-            Map map = MapCreator.getMapInstance("safe");
+        public void parameterTest() {
+            Map map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
             assertEquals(fExpected, map.setMapSize(fInputSize, fInputNumPlayers));
         }
     }

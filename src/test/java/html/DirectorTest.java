@@ -32,8 +32,7 @@ public class DirectorTest {
 
     @Before
     public void setUp() {
-        String mapType = "safe";
-        Map map = MapCreator.getMapInstance(mapType);
+        Map map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
 
         map.setMapSize(5, 2);
         map.generateMap(new Random());

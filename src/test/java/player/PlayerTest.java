@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 import map.Map;
 import map.Tile;
+import menu.GameEngine;
 import utils.Path;
 
 public class PlayerTest {
@@ -23,7 +24,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        Map map = MapCreator.getMapInstance("safe");
+        Map map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
         map.setMapSize(5, 2);
 
         Random r = Mockito.mock(Random.class);
