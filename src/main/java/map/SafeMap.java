@@ -1,9 +1,12 @@
 package map;
 
-import exceptions.InvalidMapSizeException;
-
 import java.util.Random;
 
+import exceptions.InvalidMapSizeException;
+
+/**
+ * Concrete Map for a Safe Map
+ */
 public class SafeMap extends Map {
 
     private SafeMap() {

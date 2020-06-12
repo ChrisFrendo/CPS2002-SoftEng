@@ -2,7 +2,6 @@ package map;
 
 import java.util.Random;
 
-import exceptions.InvalidMapSizeException;
 import utils.Path;
 
 
@@ -14,7 +13,6 @@ public abstract class Map {
      * The size of the map, map is a box so only one size element is needed
      */
     protected int size;
-
 
     /**
      * 2D Tile array used to store the actual game map
@@ -59,8 +57,6 @@ public abstract class Map {
         this.size = size;
         return true;
     }
-
-
 
     /**
      * Getter for the map size
@@ -130,7 +126,7 @@ public abstract class Map {
      *
      * @param r an instance of random used to generate the random numbers
      */
-    protected void generateWaterTiles(Random r, double probability) {
+    void generateWaterTiles(Random r, double probability) {
 
         int totalNumTiles = this.size * this.size;
         int numWaterTiles = (int) Math.floor(probability * totalNumTiles);
@@ -155,7 +151,7 @@ public abstract class Map {
      *
      * @param r an instance of random used to generate the random numbers
      */
-    protected void generateTreasureTile(Random r) {
+    void generateTreasureTile(Random r) {
 
         int row = r.nextInt(this.size);
         int column = r.nextInt(this.size);
@@ -171,7 +167,7 @@ public abstract class Map {
      * This method generates the grass tiles by setting tiles without a status
      * as grass tiles
      */
-    protected void generateGrassTiles() {
+    void generateGrassTiles() {
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
                 if (tiles[i][j] == null)
@@ -180,5 +176,11 @@ public abstract class Map {
         }
     }
 
+    /**
+     * Abstract method to generate a Map, each concrete map creates its own implementation depending on its map type
+     *
+     * @param random Random object used to generate random numbers
+     * @return A 2D Tile array representing the game map
+     */
     public abstract Tile[][] generateMap(Random random);
 }

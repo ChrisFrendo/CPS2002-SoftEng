@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import map.MapCreator;
 import map.Tile;
 import player.Player;
 import utils.Color;
@@ -137,20 +138,17 @@ public class Menu {
             System.out.println("1) Safe");
             System.out.println("2) Hazardous");
             int mapTypeInt = getIntInput();
-            String mapType;
+            MapCreator.MapType mapType;
             scanner.nextLine();
 
-            switch(mapTypeInt){
-                case 1:
-                    mapType = "safe";
-                default:
-                    mapType = "hazardous";
+            if (mapTypeInt == 1) {
+                mapType = MapCreator.MapType.SAFE;
+            } else {
+                mapType = MapCreator.MapType.HAZARDOUS;
             }
 
             gameBoard = gameEngine.createMap(mapSize, playerAmount, mapType);
         }
-
-
 
         System.out.println("================================================");
     }

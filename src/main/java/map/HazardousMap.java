@@ -1,10 +1,13 @@
 package map;
 
-import exceptions.InvalidMapSizeException;
-
 import java.util.Random;
 
-public class HazardousMap extends Map{
+import exceptions.InvalidMapSizeException;
+
+/**
+ * Concrete Map for a Hazardous Map
+ */
+public class HazardousMap extends Map {
     private HazardousMap() {
     }
 
@@ -29,8 +32,7 @@ public class HazardousMap extends Map{
         tiles = new Tile[this.size][this.size];
 
         double probability = 1;
-        while(probability < 0.25 || probability > 0.35) {
-            System.out.println(probability);
+        while (probability < 0.25 || probability > 0.35) {
             probability = r.nextDouble();
         }
 

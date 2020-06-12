@@ -28,7 +28,7 @@ public class Player {
         this.currentPosition = new Position(this.startingPosition);
         this.visitedTiles = new ArrayList<>();
 
-        String mapType = GameEngine.getMapType();
+        MapCreator.MapType mapType = GameEngine.getMapType();
         Map map = MapCreator.getMapInstance(mapType);
 
         this.visitedTiles.add(map.getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
@@ -84,7 +84,7 @@ public class Player {
      * @return a valid position on the already created map
      */
     private static Position generateRandomPosition(Random r) {
-        String mapType = GameEngine.getMapType();
+        MapCreator.MapType mapType = GameEngine.getMapType();
         Map map = MapCreator.getMapInstance(mapType);
 
         int size = map.getSize();
@@ -111,7 +111,7 @@ public class Player {
         int newRow;
         int newColumn;
 
-        String mapType = GameEngine.getMapType();
+        MapCreator.MapType mapType = GameEngine.getMapType();
         Map map = MapCreator.getMapInstance(mapType);
 
         switch (direction) {
