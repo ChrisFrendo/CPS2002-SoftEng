@@ -9,6 +9,9 @@ import exceptions.InvalidMapSizeException;
  */
 public class SafeMap extends Map {
 
+    private static SafeMap map = null;
+
+
     private SafeMap() {
     }
 
@@ -17,6 +20,16 @@ public class SafeMap extends Map {
             map = new SafeMap();
 
         return map;
+    }
+
+    /**
+     * This method resets the single map instance
+     *
+     * @return the empty single map instance
+     */
+    public Map resetInstance() {
+        map = null;
+        return null;
     }
 
     /**
@@ -33,7 +46,7 @@ public class SafeMap extends Map {
         tiles = new Tile[this.size][this.size];
 
         double probability = 1;
-        while(probability > 0.10) {
+        while (probability > 0.10) {
             probability = r.nextDouble();
         }
 

@@ -33,7 +33,7 @@ public class MapTest {
 
         @After
         public void tearDown() {
-            map = Map.resetInstance();
+            map = map.resetInstance();
         }
 
         @Test
@@ -90,6 +90,7 @@ public class MapTest {
 
             Random r = Mockito.mock(Random.class);
 
+            Mockito.when(r.nextDouble()).thenReturn(0.05);
             Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
 
             map.generateMap(r);
@@ -117,7 +118,7 @@ public class MapTest {
 
         @Test(expected = NullPointerException.class)
         public void isValidStartingPositionNull() {
-            Map.resetInstance();
+            map.resetInstance();
 
             map.isValidStartingPosition(2, 4);
         }

@@ -22,9 +22,11 @@ public class PlayerTest {
 
     private Tile[][] tiles;
 
+    private Map map;
+
     @Before
     public void setUp() {
-        Map map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
+        map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
         map.setMapSize(5, 2);
 
         Random r = Mockito.mock(Random.class);
@@ -39,7 +41,7 @@ public class PlayerTest {
     @After
     public void tearDown() {
         player1 = null;
-        Map.resetInstance();
+        map = map.resetInstance();
     }
 
     @Test

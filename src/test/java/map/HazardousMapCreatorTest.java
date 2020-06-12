@@ -8,38 +8,42 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SafeMapCreatorTest {
-    private SafeMapCreator safeMapCreator;
+public class HazardousMapCreatorTest {
+    private HazardousMapCreator hazardousMapCreator;
+    private Map map;
 
     @Before
     public void setUp() {
-        safeMapCreator = new SafeMapCreator();
+        hazardousMapCreator = new HazardousMapCreator();
     }
 
     @After
     public void tearDown() {
-        safeMapCreator = null;
+        hazardousMapCreator = null;
+        if (map != null)
+            map = map.resetInstance();
     }
 
     @Test
     public void getInstanceTest() {
-        Map map = safeMapCreator.getMapInstance();
+        map = hazardousMapCreator.getMapInstance();
 
-        assertTrue(map instanceof SafeMap);
+        assertTrue(map instanceof HazardousMap);
     }
 
     @Test
     public void getInstanceTest2() {
-        Map map = safeMapCreator.getMapInstance(5, 2);
+        map = hazardousMapCreator.getMapInstance(5, 2);
 
-        assertTrue(map instanceof SafeMap);
+        assertTrue(map instanceof HazardousMap);
         assertEquals(5, map.size);
     }
 
     @Test
     public void getInstanceTestInvalidSize() {
-        Map map = safeMapCreator.getMapInstance(2, 2);
+        map = hazardousMapCreator.getMapInstance(2, 2);
 
         assertNull(map);
     }
+
 }

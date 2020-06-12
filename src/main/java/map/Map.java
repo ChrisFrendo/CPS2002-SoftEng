@@ -12,7 +12,7 @@ public abstract class Map {
     /**
      * The size of the map, map is a box so only one size element is needed
      */
-    protected int size;
+    protected int size = 0;
 
     /**
      * 2D Tile array used to store the actual game map
@@ -29,12 +29,7 @@ public abstract class Map {
      *
      * @return the empty single map instance
      */
-    public static Map resetInstance() {
-        map.size = 0;
-        map.tiles = null;
-
-        return map;
-    }
+    public abstract Map resetInstance();
 
     /**
      * This setter sets the size of the map provided that the parameters

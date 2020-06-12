@@ -8,6 +8,9 @@ import exceptions.InvalidMapSizeException;
  * Concrete Map for a Hazardous Map
  */
 public class HazardousMap extends Map {
+
+    private static HazardousMap map;
+
     private HazardousMap() {
     }
 
@@ -19,12 +22,23 @@ public class HazardousMap extends Map {
     }
 
     /**
+     * This method resets the single map instance
+     *
+     * @return the empty single map instance
+     */
+    public Map resetInstance() {
+        map = null;
+        return null;
+    }
+
+    /**
      * This method generated different tiles that make up the board
      *
      * @param r an instance of random used to generate the random numbers
      * @return the board that was generated
      */
     public Tile[][] generateMap(Random r) {
+
         if (this.size < 5) {
             throw new InvalidMapSizeException("Size should be greater than 5: Call setMapSize before");
         }
