@@ -41,7 +41,7 @@ public class DirectorTest {
 
     @Test
     public void construct() throws Exception {
-        final String MAP_TEMPLATE = "mapPageTemplate.html";
+        final String MAP_TEMPLATE = "resources/mapPageTemplate.html";
         Player player = Mockito.mock(Player.class);
 
         List<Direction> directions = new ArrayList<>();

@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,12 +23,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import html.GenerateHtmlFiles;
 import map.GrassTile;
 import map.MapCreator;
+import map.Map;
 import map.Tile;
 import map.TreasureTile;
 import map.WaterTile;
 import player.Direction;
 import player.Player;
 import player.Position;
+import team.Team;
 import utils.FileHelperUtils;
 
 @RunWith(PowerMockRunner.class)
@@ -78,19 +81,19 @@ public class GameEngineTest {
     @Test
     public void handleInputTestSuccess() {
         Player player = Mockito.mock(Player.class);
-        gameEngine.getPlayerList().add(player);
+        gameEngine.playerList.add(player);
 
-        Mockito.when(gameEngine.getPlayerList().get(0).move(Direction.down)).thenReturn(true);
-        assertTrue(gameEngine.handleInput('d', 0));
+        Mockito.when(player.move(Direction.down)).thenReturn(true);
+        assertTrue(gameEngine.handleInput('d', player));
     }
 
     @Test
     public void handleInputTestFailure() {
         Player player = Mockito.mock(Player.class);
-        gameEngine.getPlayerList().add(player);
+        gameEngine.playerList.add(player);
 
-        Mockito.when(gameEngine.getPlayerList().get(0).move(Direction.down)).thenReturn(true);
-        assertFalse(gameEngine.handleInput('e', 0));
+        Mockito.when(player.move(Direction.down)).thenReturn(true);
+        assertFalse(gameEngine.handleInput('e', player));
     }
 
     @Test
@@ -105,7 +108,7 @@ public class GameEngineTest {
         gameEngine.createMap(10, x, MapCreator.MapType.SAFE);
         gameEngine.createPlayers(x);
 
-        assertEquals(x, gameEngine.getPlayerList().size());
+        assertEquals(x, gameEngine.playerList.size());
     }
 
     @Test
@@ -133,7 +136,7 @@ public class GameEngineTest {
         Mockito.doNothing().when(generateHtmlFiles).generateHtmlFile(any(), any(), any());
 
         Tile[][] mockBoard = {{new GrassTile(), new GrassTile()}, {new TreasureTile(), new WaterTile()}};
-        gameEngine.writeHtml(mockBoard, player, 0);
+        gameEngine.writeHtml(mockBoard, player);
 
         FileHelperUtils.deleteDirectory("generatedHTML");
     }
@@ -145,10 +148,22 @@ public class GameEngineTest {
         Player player = Mockito.mock(Player.class);
 
         Tile[][] mockBoard = {{new TreasureTile(), new WaterTile()}};
-        gameEngine.writeHtml(mockBoard, player, 0);
+        gameEngine.writeHtml(mockBoard, player);
 
         assertFalse(new File("generatedHTML/map_player_0.html").exists());
 
         FileHelperUtils.deleteDirectory("generatedHTML");
+    }
+
+    @Test
+    public void createTeamsTest() {
+        gameEngine.createMap(10, 5, MapCreator.MapType.SAFE);
+        gameEngine.createPlayers(5);
+
+        List<Team> teams = gameEngine.createTeams(2);
+
+        assertEquals(2, teams.size());
+        assertEquals(3, teams.get(0).getObservers().size());
+        assertEquals(2, teams.get(1).getObservers().size());
     }
 }

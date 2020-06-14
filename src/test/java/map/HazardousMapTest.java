@@ -26,6 +26,22 @@ public class HazardousMapTest {
     }
 
     @Test
+    public void generateMapProb() {
+        int size = 5;
+        map.setMapSize(size, 4);
+
+        Random r = Mockito.mock(Random.class);
+        Mockito.when(r.nextDouble()).thenReturn(0.0, 0.4, 0.3);
+
+        Mockito.when(r.nextInt(5)).thenReturn(0, 1, 2, 0, 3, 0, 3, 1, 4, 1, 4, 2, 1, 0, 2, 2);
+
+        Tile[][] tiles = map.generateMap(r);
+
+        assertEquals(size, tiles.length);
+        assertEquals(size, tiles[0].length);
+    }
+
+    @Test
     public void generateMap() {
         int size = 5;
         map.setMapSize(size, 4);

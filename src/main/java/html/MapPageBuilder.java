@@ -1,5 +1,6 @@
 package html;
 
+import java.io.IOException;
 import java.util.List;
 
 import map.Tile;
@@ -23,19 +24,9 @@ public class MapPageBuilder extends PageBuilder {
     }
 
     @Override
-    void loadTemplate(String resourceName) throws Exception {
-
-        String filepath;
-        try {
-            filepath = FileHelperUtils.getResourceFilePath(resourceName);
-        } catch (NullPointerException e) {
-            System.err.println("Error opening resource: " + e.getMessage());
-            throw e;
-        }
-        page.html = FileHelperUtils.readWholeFile(filepath);
-
+    void loadTemplate(String resourceName) throws IOException {
+        page.html = FileHelperUtils.readWholeFile(resourceName);
     }
-
 
     @Override
     void buildHeader(String playerId) {
