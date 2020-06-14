@@ -25,7 +25,7 @@ public class Director {
      * @throws Exception Throws an exception when loading the html template does not work
      */
     public void construct(Tile[][] gameMap, Player player) throws Exception {
-        String MAP_TEMPLATE = "mapPageTemplate.html";
+        String MAP_TEMPLATE = "resources/mapPageTemplate.html";
         builder.loadTemplate(MAP_TEMPLATE);
 
         String playerId = player.getId();
