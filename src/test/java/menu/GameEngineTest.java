@@ -22,6 +22,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import html.GenerateHtmlFiles;
 import map.GrassTile;
+import map.MapCreator;
 import map.Map;
 import map.Tile;
 import map.TreasureTile;
@@ -39,14 +40,12 @@ public class GameEngineTest {
 
     @Before
     public void setup() {
-        Map.getInstance();
         gameEngine = GameEngine.getInstance();
     }
 
     @After
     public void teardown() {
         gameEngine = gameEngine.resetGameEngine();
-        Map.resetInstance();
     }
 
     @Test
@@ -69,19 +68,20 @@ public class GameEngineTest {
 
     @Test
     public void setMapSizeTrue() {
-        Tile[][] response = gameEngine.createMap(5, 2);
+        Tile[][] response = gameEngine.createMap(5, 2, MapCreator.MapType.SAFE);
         assertNotNull(response);
     }
 
     @Test
     public void setMapSizeFalse() {
-        Tile[][] response = gameEngine.createMap(1, 1);
+        Tile[][] response = gameEngine.createMap(1, 1, MapCreator.MapType.SAFE);
         assertNull(response);
     }
 
     @Test
     public void handleInputTestSuccess() {
         Player player = Mockito.mock(Player.class);
+        gameEngine.playerList.add(player);
 
         Mockito.when(player.move(Direction.down)).thenReturn(true);
         assertTrue(gameEngine.handleInput('d', player));
@@ -90,6 +90,7 @@ public class GameEngineTest {
     @Test
     public void handleInputTestFailure() {
         Player player = Mockito.mock(Player.class);
+        gameEngine.playerList.add(player);
 
         Mockito.when(player.move(Direction.down)).thenReturn(true);
         assertFalse(gameEngine.handleInput('e', player));
@@ -104,10 +105,10 @@ public class GameEngineTest {
     public void createPlayersTest() {
         int x = 5;
 
-        gameEngine.createMap(10, x);
-        List<Player> playerList = gameEngine.createPlayers(x);
+        gameEngine.createMap(10, x, MapCreator.MapType.SAFE);
+        gameEngine.createPlayers(x);
 
-        assertEquals(x, playerList.size());
+        assertEquals(x, gameEngine.playerList.size());
     }
 
     @Test
@@ -156,7 +157,7 @@ public class GameEngineTest {
 
     @Test
     public void createTeamsTest() {
-        gameEngine.createMap(10, 5);
+        gameEngine.createMap(10, 5, MapCreator.MapType.SAFE);
         gameEngine.createPlayers(5);
 
         List<Team> teams = gameEngine.createTeams(2);

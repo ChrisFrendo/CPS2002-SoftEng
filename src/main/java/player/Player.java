@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import map.Map;
+import map.MapCreator;
 import map.Tile;
 import team.Observer;
 import team.Team;
+import menu.GameEngine;
 
 /**
  * Class that represents a player in the game
@@ -18,14 +20,20 @@ public class Player extends Observer<Team> {
     Position startingPosition;
     private String id;
     private boolean winner = false;
-    private List<Tile> visitedTiles = new ArrayList<>();
-    private List<Direction> pastMoves = new ArrayList<>();
+    private List<Tile> visitedTiles;
+    private List<Direction> pastMoves;
 
     public Player(String id) {
         this.id = id;
         this.startingPosition = generateRandomPosition(new Random());
         this.currentPosition = new Position(this.startingPosition);
-        this.visitedTiles.add(Map.getInstance().getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
+        this.visitedTiles = new ArrayList<>();
+
+        MapCreator.MapType mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
+
+        this.visitedTiles.add(map.getTile(this.startingPosition.getRow(), this.startingPosition.getColumn()));
+        this.pastMoves = new ArrayList<>();
     }
 
     /**
@@ -82,12 +90,15 @@ public class Player extends Observer<Team> {
      * @return a valid position on the already created map
      */
     private static Position generateRandomPosition(Random r) {
-        int size = Map.getInstance().getSize();
+        MapCreator.MapType mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
+
+        int size = map.getSize();
 
         int row = r.nextInt(size);
         int column = r.nextInt(size);
 
-        if (Map.getInstance().isValidStartingPosition(row, column)) {
+        if (map.isValidStartingPosition(row, column)) {
             return new Position(row, column);
         } else {
             return generateRandomPosition(r);
@@ -105,6 +116,9 @@ public class Player extends Observer<Team> {
     public boolean move(Direction direction) {
         int newRow;
         int newColumn;
+
+        MapCreator.MapType mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
 
         // computing the values of newRow and newColumn based on the director
         switch (direction) {
@@ -125,11 +139,8 @@ public class Player extends Observer<Team> {
                 newColumn = this.currentPosition.getColumn() + 1;
         }
 
-        // if tile exists, process move
-        if (Map.getInstance().tileExists(newRow, newColumn)) {
-            Tile.Status tileStatus = Map.getInstance().getTileStatus(newRow, newColumn);
-
-            // check status of tile
+        if (map.tileExists(newRow, newColumn)) {
+            Tile.Status tileStatus = map.getTileStatus(newRow, newColumn);
             if (tileStatus.equals(Tile.Status.GRASS)) {
                 // player can go on grass
                 this.currentPosition.setPosition(newRow, newColumn);
@@ -148,7 +159,7 @@ public class Player extends Observer<Team> {
             }
 
             // adding tile to visitedTiles
-            this.visitedTiles.add(Map.getInstance().getTile(newRow, newColumn));
+            this.visitedTiles.add(map.getTile(newRow, newColumn));
 
             // adding direction to pastMoves
             this.pastMoves.add(direction);
@@ -171,8 +182,11 @@ public class Player extends Observer<Team> {
      */
     @Override
     public void update() {
+        MapCreator.MapType mapType = GameEngine.getMapType();
+        Map map = MapCreator.getMapInstance(mapType);
+
         Position position = this.subject.getState();
-        Tile newTile = Map.getInstance().getTile(position.getRow(), position.getColumn());
+        Tile newTile = map.getTile(position.getRow(), position.getColumn());
         if (!this.visitedTiles.contains(newTile))
             this.visitedTiles.add(newTile);
     }

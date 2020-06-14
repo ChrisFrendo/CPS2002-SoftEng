@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import map.MapCreator;
 import map.Tile;
 import player.Player;
 import team.Observer;
@@ -256,7 +257,21 @@ public class Menu {
             System.out.println("a minimum of 8 for 5-8 players");
             int mapSize = getIntInput();
             scanner.nextLine();
-            gameBoard = gameEngine.createMap(mapSize, playerAmount);
+
+            System.out.println("Enter map type (enter corresponding number)");
+            System.out.println("1) Safe");
+            System.out.println("2) Hazardous");
+            int mapTypeInt = getIntInput();
+            MapCreator.MapType mapType;
+            scanner.nextLine();
+
+            if (mapTypeInt == 1) {
+                mapType = MapCreator.MapType.SAFE;
+            } else {
+                mapType = MapCreator.MapType.HAZARDOUS;
+            }
+
+            gameBoard = gameEngine.createMap(mapSize, playerAmount, mapType);
         }
 
         System.out.println("================================================");

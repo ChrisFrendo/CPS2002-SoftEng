@@ -1,6 +1,7 @@
 package team;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.FieldSetter;
 
 import map.Map;
+import map.SafeMap;
 import player.Direction;
 import player.Player;
 import player.Position;
@@ -22,14 +24,14 @@ public class TeamTest {
 
     @Before
     public void setUp() {
-        map = Map.getInstance();
+        map = SafeMap.getInstance();
         team = new Team("Some Team");
     }
 
     @After
     public void tearDown() {
         team = null;
-        Map.resetInstance();
+        map.resetInstance();
     }
 
     @Test
@@ -87,7 +89,8 @@ public class TeamTest {
         Team team = new Team("Team 1");
 
         Random r = Mockito.mock(Random.class);
-        Mockito.when(r.nextInt(5)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
+        Mockito.when(r.nextDouble()).thenReturn(0.09);
+        Mockito.when(r.nextInt(5)).thenReturn(0, 1, 1, 1, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
 
         // generating map
         assertTrue(map.setMapSize(5, 2));
@@ -99,9 +102,9 @@ public class TeamTest {
 
         // using reflection to force current and starting positions
         FieldSetter.setField(player1, player1.getClass().getDeclaredField("currentPosition"), new Position(0, 3));
-        FieldSetter.setField(player2, player2.getClass().getDeclaredField("currentPosition"), new Position(1, 1));
+        FieldSetter.setField(player2, player2.getClass().getDeclaredField("currentPosition"), new Position(1, 0));
         FieldSetter.setField(player1, player1.getClass().getDeclaredField("startingPosition"), new Position(0, 3));
-        FieldSetter.setField(player2, player2.getClass().getDeclaredField("startingPosition"), new Position(1, 1));
+        FieldSetter.setField(player2, player2.getClass().getDeclaredField("startingPosition"), new Position(1, 0));
 
         // attaching teams to mocks
         player1.setTeam(team);
@@ -118,7 +121,7 @@ public class TeamTest {
         // checking that the tile that player1 went to, ie (0,2) is present in visited tiles of player2
         assertTrue(player2.getVisitedTiles().contains(map.getTile(0, 2)));
 
-        // checking that the tile that player2 went to, ie (1,4) is present in visited tiles of player1
+        // checking that the tile that player2 went to, ie (1,1) is present in visited tiles of player1
         assertTrue(player1.getVisitedTiles().contains(map.getTile(1, 1)));
 
     }

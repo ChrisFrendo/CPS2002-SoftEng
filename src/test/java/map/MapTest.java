@@ -28,24 +28,12 @@ public class MapTest {
 
         @Before
         public void setUp() {
-            map = Map.getInstance();
+            map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
         }
 
         @After
         public void tearDown() {
-            map = Map.resetInstance();
-        }
-
-        @Test
-        public void generateMap() {
-            int size = 5;
-            map.setMapSize(size, 4);
-            Random r = new Random();
-
-            Tile[][] tiles = map.generateMap(r);
-
-            assertEquals(size, tiles.length);
-            assertEquals(size, tiles[0].length);
+            map = map.resetInstance();
         }
 
         @Test
@@ -88,36 +76,6 @@ public class MapTest {
             assertFalse(response);
         }
 
-        @Test
-        public void generateMapWaterOverlap() {
-            int size = 5;
-            map.setMapSize(size, 4);
-
-            Random r = Mockito.mock(Random.class);
-
-            Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
-
-            Tile[][] tiles = map.generateMap(r);
-
-            assertEquals(size, tiles.length);
-            assertEquals(size, tiles[0].length);
-        }
-
-        @Test
-        public void generateMapTreasureOverlapWater() {
-            int size = 5;
-            map.setMapSize(size, 4);
-
-            Random r = Mockito.mock(Random.class);
-
-            Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 2, 3, 3, 2, 3, 2, 3, 4);
-
-            Tile[][] tiles = map.generateMap(r);
-
-            assertEquals(size, tiles.length);
-            assertEquals(size, tiles[0].length);
-        }
-
         @Test(expected = InvalidMapSizeException.class)
         public void generateMapInvalidSize() {
             Random r = Mockito.mock(Random.class);
@@ -132,11 +90,12 @@ public class MapTest {
 
             Random r = Mockito.mock(Random.class);
 
+            Mockito.when(r.nextDouble()).thenReturn(0.05);
             Mockito.when(r.nextInt(size)).thenReturn(0, 1, 1, 2, 2, 0, 3, 2, 3, 2, 3, 1, 3, 2, 3, 4);
 
             map.generateMap(r);
 
-            boolean result = Map.getInstance().isValidStartingPosition(0, 0);
+            boolean result = map.isValidStartingPosition(0, 0);
 
             assertTrue(result);
         }
@@ -152,16 +111,16 @@ public class MapTest {
 
             map.generateMap(r);
 
-            boolean result = Map.getInstance().isValidStartingPosition(0, 0);
+            boolean result = map.isValidStartingPosition(0, 0);
 
             assertFalse(result);
         }
 
         @Test(expected = NullPointerException.class)
         public void isValidStartingPositionNull() {
-            Map.resetInstance();
+            map.resetInstance();
 
-            Map.getInstance().isValidStartingPosition(2, 4);
+            map.isValidStartingPosition(2, 4);
         }
     }
 
@@ -185,8 +144,9 @@ public class MapTest {
         public boolean fExpected;
 
         @Test
-        public void test() {
-            assertEquals(fExpected, Map.getInstance().setMapSize(fInputSize, fInputNumPlayers));
+        public void parameterTest() {
+            Map map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
+            assertEquals(fExpected, map.setMapSize(fInputSize, fInputNumPlayers));
         }
     }
 }
