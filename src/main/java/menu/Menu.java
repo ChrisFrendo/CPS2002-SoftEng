@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import map.Tile;
 import player.Player;
+import team.Observer;
+import team.Team;
 import utils.Color;
 import utils.FileHelperUtils;
 
@@ -48,7 +50,7 @@ public class Menu {
         System.out.println("Welcome to Water tiles!!");
         System.out.print(Color.RESET);
 
-        /* calling helper function to get number of players and map size*/
+        /* calling helper function to get number of players and map size */
         while (true) {
             try {
                 setupGameValues();
@@ -59,25 +61,146 @@ public class Menu {
             break;
         }
 
-        System.out.println("Starting Game");
-
         /* Creates Players */
-        gameEngine.createPlayers(playerAmount);
-        List<Player> playerList = gameEngine.getPlayerList();
+        List<Player> playerList = gameEngine.createPlayers(playerAmount);
 
         FileHelperUtils.deleteDirectory("generatedHTML");
+
+        playGame(playerList);
+    }
+
+    private static void playGame(List<Player> playerList) {
+        System.out.print(Color.CYAN);
+        System.out.println("Select Game Mode: ");
+        System.out.println("1: Solo Play");
+        System.out.println("2: Team Play");
+        System.out.print(Color.RESET);
+
+        boolean valid;
+
+        // decide if team or normal mode
+        do {
+            valid = true;
+            String input = scanner.nextLine();
+
+            switch (input) {
+                case "1":
+                    soloPlay(playerList);
+                    break;
+                case "2":
+                    teamPlay(playerList);
+                    break;
+                default:
+                    System.out.print(Color.RED);
+                    System.out.println("Invalid Input: 1 = Solo, 2 = Team");
+                    System.out.print(Color.RESET);
+                    valid = false;
+            }
+        } while (!valid);
+    }
+
+    /**
+     * Method used to play a game in team mode
+     *
+     * @param playerList The list of players that are playing
+     */
+    private static void teamPlay(List<Player> playerList) {
+        int numTeams = getNumTeams(playerList.size());
+
+        List<Team> teams = gameEngine.createTeams(numTeams);
+
+        System.out.println("==============================================");
+
+        printTeams(teams);
+
+        // main game loop
+        boolean treasureFound;
+
+        do {
+            generateHtml(playerList);
+            System.out.println("================================================");
+
+            // get a single player to play for each team
+            for (Team team : teams) {
+                getPlayerMoves(team.getCurrentPlayer());
+                team.incrementCurrentPlayerCount();
+            }
+
+            treasureFound = checkWinnersTeam(playerList);
+        } while (!treasureFound);
+
+        // generate html with treasure tile
+        generateHtml(playerList);
+    }
+
+    /**
+     * Helper function used to get the number of teams from console
+     * Checks if the number of teams is less than numPlayers
+     *
+     * @param numPlayers The number of players playing the game
+     * @return the number of teams inputted by the used
+     */
+    private static int getNumTeams(int numPlayers) {
+        int numTeams;
+        // getting number of teams
+        do {
+            System.out.println("Enter number of teams:");
+            numTeams = getIntInput();
+            scanner.nextLine();
+
+            // cannot have more teams than players
+            if (numTeams > numPlayers) {
+                System.out.print(Color.RED);
+                System.out.println("Cannot have more teams than players");
+                System.out.print(Color.RESET);
+            } else {
+                break;
+            }
+        } while (true);
+
+        return numTeams;
+    }
+
+    /**
+     * Prints each team's players
+     *
+     * @param teams the list of teams to print
+     */
+    private static void printTeams(List<Team> teams) {
+        // printing team lists
+        for (Team team : teams) {
+            System.out.print(Color.CYAN);
+            System.out.println(team.getTeamId() + " players: ");
+            System.out.print(Color.RESET);
+            for (Observer o : team.getObservers()) {
+                Player p = (Player) o;
+                System.out.println(p.getId());
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Method used to play the game in solo mode
+     *
+     * @param playerList The list of players currently playing
+     */
+    private static void soloPlay(List<Player> playerList) {
+        System.out.println("Starting Game");
 
         generateHtml(playerList);
 
         /* Moves players */
         boolean treasureFound = false;
 
-
         while (!treasureFound) {
             System.out.println("================================================");
             System.out.println("Generated Updated Maps");
 
-            getPlayerMoves(playerList);
+            /* Getting moves for all players */
+            for (Player player : playerList) {
+                getPlayerMoves(player);
+            }
 
             generateHtml(playerList);
 
@@ -88,27 +211,28 @@ public class Menu {
     /**
      * Helper function used to get the moves for all the players
      *
-     * @param playerList The list of currently playing players
+     * @param player the player currently moving
      */
-    private static void getPlayerMoves(List<Player> playerList) {
+    private static void getPlayerMoves(Player player) {
         char input;
 
         /* Getting moves for all players */
-        for (int i = 0; i < playerList.size(); ++i) {
+        do {
             System.out.print(Color.MAGENTA_UNDERLINED);
-            System.out.println(playerList.get(i).getId());
+            System.out.println(player.getId());
             System.out.print(Color.RESET);
             System.out.println("Enter move [u, d, l, r]:");
             input = scanner.next().charAt(0);
 
-            if (!gameEngine.handleInput(input, i)) {
+            if (gameEngine.handleInput(input, player)) {
+                break;
+            } else {
                 System.out.print(Color.RED);
                 System.out.println("Cannot move in that direction. Enter a different move");
                 System.out.print(Color.RESET);
-                --i;
             }
 
-        }
+        } while (true);
     }
 
     /**
@@ -163,9 +287,31 @@ public class Menu {
      */
     private static void generateHtml(List<Player> playerList) {
         /* Generating html for each player */
-        for (int i = 0; i < playerList.size(); i++) {
-            gameEngine.writeHtml(gameBoard, playerList.get(i), i);
+        for (Player player : playerList) {
+            gameEngine.writeHtml(gameBoard, player);
         }
+    }
+
+    private static boolean checkWinnersTeam(List<Player> playerList) {
+        boolean treasureFound = false;
+
+        /* Checking if there are any winners */
+        for (Player player : playerList) {
+            /* Check if treasure is found */
+            if (player.isWinner()) {
+                treasureFound = true;
+                System.out.print(Color.YELLOW_BOLD);
+
+                Team team = player.getTeam();
+                System.out.println(team.getTeamId() + " found the treasure. Winners are: ");
+                for (Observer x : team.getObservers()) {
+                    Player p = (Player) x;
+                    System.out.println(p.getId());
+                }
+                System.out.print(Color.RESET);
+            }
+        }
+        return treasureFound;
     }
 
     /**
@@ -176,13 +322,14 @@ public class Menu {
      */
     private static boolean checkWinners(List<Player> playerList) {
         boolean treasureFound = false;
+
         /* Checking if there are any winners */
-        for (int i = 0; i < playerList.size(); i++) {
+        for (Player player : playerList) {
             /* Check if treasure is found */
-            if (playerList.get(i).isWinner()) {
+            if (player.isWinner()) {
                 treasureFound = true;
                 System.out.print(Color.YELLOW_BOLD);
-                System.out.println("Player " + i + " found the treasure");
+                System.out.println(player.getId() + " found the treasure");
                 System.out.print(Color.RESET);
             }
         }
