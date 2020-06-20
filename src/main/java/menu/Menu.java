@@ -151,7 +151,6 @@ public class Menu {
         do {
             System.out.println("Enter number of teams:");
             numTeams = getIntInput();
-            scanner.nextLine();
 
             // cannot have more teams than players
             if (numTeams > numPlayers) {
@@ -243,32 +242,45 @@ public class Menu {
         System.out.println("================================================");
         /* Prompts for amount of players */
         while (!gameEngine.validatePlayers(playerAmount)) {
-            System.out.println("Enter number of players:");
-            System.out.println("Please enter an amount from 2 to 8");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "Enter number of players:");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "Please enter an amount from 2 to 8");
             playerAmount = getIntInput();
-            scanner.nextLine();
         }
+        System.out.println("================================================");
 
-        /* Prompts for map size */
-        while (gameBoard == null) {
-            System.out.println("Enter map size");
-            System.out.println("Please enter a maximum of 50");
-            System.out.println("and a minimum of 5 for 2-4 player");
-            System.out.println("a minimum of 8 for 5-8 players");
-            int mapSize = getIntInput();
-            scanner.nextLine();
+        MapCreator.MapType mapType;
 
-            System.out.println("Enter map type (enter corresponding number)");
-            System.out.println("1) Safe");
-            System.out.println("2) Hazardous");
+        /* Prompts for map type */
+        do {
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "Enter map type (enter corresponding number)");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "1) Safe");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "2) Hazardous");
             int mapTypeInt = getIntInput();
-            MapCreator.MapType mapType;
-            scanner.nextLine();
 
             if (mapTypeInt == 1) {
                 mapType = MapCreator.MapType.SAFE;
-            } else {
+                break;
+            } else if (mapTypeInt == 2) {
                 mapType = MapCreator.MapType.HAZARDOUS;
+                break;
+            } else {
+                printWithColour(Color.RED, "Invalid Map Type");
+            }
+        } while (true);
+
+        System.out.println("================================================");
+
+        /* Prompts for map size*/
+        while (gameBoard == null) {
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "Enter map size");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "Please enter a maximum of 50");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "and a minimum of 5 for 2-4 player");
+            printWithColour(Color.CYAN_BOLD_BRIGHT, "a minimum of 8 for 5-8 players");
+            int mapSize = getIntInput();
+
+            if (mapSize < 5 || mapSize > 50) {
+                printWithColour(Color.RED, "Invalid Map Size");
+                continue;
             }
 
             gameBoard = gameEngine.createMap(mapSize, playerAmount, mapType);
@@ -284,12 +296,16 @@ public class Menu {
      */
     private static int getIntInput() {
         int value;
-        try {
-            value = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            printWithColour(Color.RED, "Invalid Input");
-            throw e;
-        }
+        do {
+            try {
+                value = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                printWithColour(Color.RED, "Invalid Input");
+                continue;
+            }
+            break;
+        } while (true);
+
         return value;
     }
 
