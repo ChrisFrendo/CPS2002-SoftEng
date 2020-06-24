@@ -1,4 +1,4 @@
-# Water Tiles V1.0
+# Water Tiles V2.0
 
 Water tiles is a console based game intended for 2 to 8 players. It is a tile game
 where the player has to find the treasure while avoiding water tiles because these
@@ -6,10 +6,15 @@ will send him back to the starting position!!
 
 ## Installation
 
-1. Clone this repository or download the zip file
-2. Open the project using your favorite ide
-3. Find the Menu class in /src/main/java/menu
-4. Run the main method in this Menu class from your ide.
+1. Download the jar file for the latest release
+2. Execute jar file using the following command
+
+```
+java -jar watertiles.jar
+```
+
+NB: If you are using a terminal which allows ANSI colours (e.g. bash) you can add "colours" as a command line argument when running the jar file to enable ANSI colours for the terminal outputs.
+
 
 ## Game Flow
 
@@ -32,6 +37,10 @@ found the treasure. If it does indeed find winners, then this is indicated on th
 
 ![Screenshot of html page](https://media.giphy.com/media/gHctpdkhp80L4qVGcy/giphy.gif)  
 ![Screenshot of command line input](https://imgur.com/nQqUCPY.png)
+
+## Updates
+
+Version 2.0 allows team play and also offers 2 different map types to choose from.
 
 ## Authors
 
