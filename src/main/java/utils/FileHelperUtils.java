@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,9 +22,9 @@ public class FileHelperUtils {
      *
      * @param filePath The path of the file whose contents to read
      * @return A string containing the whole contents of the file
-     * @throws Exception Throws an exception when an IO error happens during reading of file
+     * @throws IOException Throws an IOException when an IO error happens during reading of file
      */
-    public static String readWholeFile(String filePath) throws Exception {
+    public static String readWholeFile(String filePath) throws IOException {
 
         StringBuilder contentBuilder = new StringBuilder();
         try (Stream<String> stream = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)) {
@@ -34,7 +32,7 @@ public class FileHelperUtils {
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
             e.printStackTrace();
-            throw new Exception(e);
+            throw e;
         }
         return contentBuilder.toString();
     }
@@ -74,7 +72,7 @@ public class FileHelperUtils {
     public static void copyFile(String src, String dest) {
         File destFile = new File(dest);
         if (!destFile.exists()) {
-            File srcFile = new File(getResourceFilePath(src));
+            File srcFile = new File(src);
             try {
                 FileUtils.copyFile(srcFile, destFile);
             } catch (IOException e) {
@@ -83,24 +81,6 @@ public class FileHelperUtils {
                 System.exit(-1);
             }
         }
-    }
-
-    /**
-     * Helper function used to get the file path of a resource in the resources folder
-     *
-     * @param resourceName The name of the resource whose file path to get
-     * @return The file path of the required resource
-     */
-    public static String getResourceFilePath(String resourceName) {
-        URL res = Objects.requireNonNull(FileHelperUtils.class.getClassLoader().getResource(resourceName));
-        try {
-            return Paths.get(res.toURI()).toFile().getAbsolutePath();
-        } catch (URISyntaxException e) {
-            System.err.println("Erroneous URI encountered when reading resource. Exiting System");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-        return null;
     }
 
     /**

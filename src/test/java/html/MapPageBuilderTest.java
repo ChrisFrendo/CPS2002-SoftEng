@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,7 +23,7 @@ import player.Position;
 
 public class MapPageBuilderTest {
 
-    private final String MAP_TEMPLATE = "mapPageTemplate.html";
+    private final String MAP_TEMPLATE = "resources/mapPageTemplate.html";
 
     private MapPageBuilder mapPageBuilder;
 
@@ -53,8 +54,8 @@ public class MapPageBuilderTest {
         assertNotNull(mapPageBuilder.getPage().getHtml());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void loadTemplateInvalidFile() throws Exception {
+    @Test(expected = IOException.class)
+    public void loadTemplateInvalidFile() throws IOException {
 
         // making call
         mapPageBuilder.loadTemplate("nonExistent.html");

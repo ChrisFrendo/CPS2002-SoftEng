@@ -1,6 +1,7 @@
 package menu;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -10,14 +11,25 @@ import html.MapPageBuilder;
 import html.Page;
 import html.PageBuilder;
 import map.Map;
+import map.MapCreator;
 import map.Tile;
 import player.Direction;
 import player.Player;
+import team.Team;
 
 /**
  * This singleton class is used to drive the game
  */
 public class GameEngine {
+
+    /**
+     * Stores the MapType, by default set to SAFE
+     */
+    private static MapCreator.MapType mapType = MapCreator.MapType.SAFE;
+
+    public static MapCreator.MapType getMapType() {
+        return mapType;
+    }
 
     /**
      * Singleton instance of GameEngine
@@ -27,8 +39,7 @@ public class GameEngine {
     /**
      * List of type player containing all players currently playing the game
      */
-    private List<Player> playerList = new ArrayList<>();
-
+    List<Player> playerList = new ArrayList<>();
 
     private GameEngine() {
     }
@@ -55,16 +66,6 @@ public class GameEngine {
         return gameEngine;
     }
 
-
-    /**
-     * Getter for playerList
-     *
-     * @return A list of type Player
-     */
-    List<Player> getPlayerList() {
-        return playerList;
-    }
-
     /**
      * This method checks if the player amount is as specified
      *
@@ -80,11 +81,12 @@ public class GameEngine {
      *
      * @param playerAmount the amount of players tp be created
      */
-    void createPlayers(int playerAmount) {
+    List<Player> createPlayers(int playerAmount) {
         for (int i = 0; i < playerAmount; ++i) {
             Player player = new Player("Player " + i);
             playerList.add(player);
         }
+        return playerList;
     }
 
     /**
@@ -94,9 +96,11 @@ public class GameEngine {
      * @param playerAmount the amount of players that will be populated on the map
      * @return the board that was just created, null if the creation failed
      */
-    Tile[][] createMap(int mapSize, int playerAmount) {
-        if (Map.getInstance().setMapSize(mapSize, playerAmount)) {
-            return Map.getInstance().generateMap(new Random());
+    Tile[][] createMap(int mapSize, int playerAmount, MapCreator.MapType mapType) {
+        Map map = MapCreator.getMapInstance(mapType, mapSize, playerAmount);
+        if (map != null) {
+            GameEngine.mapType = mapType;
+            return map.generateMap(new Random());
         }
         return null;
     }
@@ -104,13 +108,13 @@ public class GameEngine {
     /**
      * This method takes care of the input and moves the indicated player as demanded
      *
-     * @param input        the character indicating the direction the player is to be moved
-     * @param playerNumber the number of the player to be moved
+     * @param input  the character indicating the direction the player is to be moved
+     * @param player the player to be moved
      * @return true if the player was moved successfully, false otherwise
      */
-    boolean handleInput(char input, int playerNumber) {
+    boolean handleInput(char input, Player player) {
         if (Direction.get(input) != null) {
-            return playerList.get(playerNumber).move(Direction.get(input));
+            return player.move(Direction.get(input));
         }
         return false;
     }
@@ -118,11 +122,10 @@ public class GameEngine {
     /**
      * This method generates html that displays the position of the player
      *
-     * @param gameBoard    the board that the game is being played on
-     * @param player       the player object that the html is being generated for
-     * @param playerNumber the player number of the player that the html is being generated for
+     * @param gameBoard the board that the game is being played on
+     * @param player    the player object that the html is being generated for
      */
-    void writeHtml(Tile[][] gameBoard, Player player, int playerNumber) {
+    void writeHtml(Tile[][] gameBoard, Player player) {
         String GENERATED_HTML_DIR = "generatedHtml";
 
         PageBuilder builder = new MapPageBuilder();
@@ -137,6 +140,40 @@ public class GameEngine {
 
         Page myPage = builder.getPage();
 
-        GenerateHtmlFiles.getInstance().generateHtmlFile(myPage.getHtml(), "map_player_" + (playerNumber) + ".html", GENERATED_HTML_DIR);
+        GenerateHtmlFiles.getInstance().generateHtmlFile(myPage.getHtml(), "map_" + player.getId() + ".html", GENERATED_HTML_DIR);
+    }
+
+
+    /**
+     * Method used to create a number of Teams and populate them with players from playerList
+     *
+     * @param numTeams The number of teams to create
+     * @return A list of Teams where each team contains a number of players
+     */
+    List<Team> createTeams(int numTeams) {
+        Collections.shuffle(playerList);
+
+        List<Team> teams = new ArrayList<>();
+
+        // creating empty teams
+        for (int i = 0; i < numTeams; i++) {
+            teams.add(new Team("Team " + i));
+        }
+
+        // adding players to teams
+        int j = 0;
+        for (Player player : playerList) {
+
+            // attaching team to player
+            player.setTeam(teams.get(j));
+            j = (j + 1) % teams.size();
+        }
+
+        // ensuring players can see each other's positions
+        for (Player player : playerList) {
+            player.attachStartPosition();
+        }
+
+        return teams;
     }
 }

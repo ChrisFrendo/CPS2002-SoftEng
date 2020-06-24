@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import map.MapCreator;
+import menu.GameEngine;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,14 +32,16 @@ public class DirectorTest {
 
     @Before
     public void setUp() {
-        Map.getInstance().setMapSize(5, 2);
-        Map.getInstance().generateMap(new Random());
+        Map map = MapCreator.getMapInstance(MapCreator.MapType.SAFE);
+
+        map.setMapSize(5, 2);
+        map.generateMap(new Random());
         director = new Director(builder);
     }
 
     @Test
     public void construct() throws Exception {
-        final String MAP_TEMPLATE = "mapPageTemplate.html";
+        final String MAP_TEMPLATE = "resources/mapPageTemplate.html";
         Player player = Mockito.mock(Player.class);
 
         List<Direction> directions = new ArrayList<>();
